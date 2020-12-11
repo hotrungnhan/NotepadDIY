@@ -8,15 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace NotepadDIY
+namespace NotepadDIY.Components
 {
-    public partial class Form1 : Form
+    public partial class DocMapTextBox : UserControl
     {
-        public Form1()
+        public DocMapTextBox()
         {
             InitializeComponent();
         }
 
-  
+        private void DocMapTextBox_Resize(object sender, EventArgs e)
+        {
+            //Console.WriteLine("move");
+        }
     }
 }
