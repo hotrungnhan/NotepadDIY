@@ -14,12 +14,18 @@ namespace NotepadDIY.Components
     public partial class DocMapTextBox : UserControl
     {
         //property
-        public override string Text { get { return this.fastColoredTextBox1.Text; } set { this.fastColoredTextBox1.Text = value; } }
         public double DocumentMapSize { get; set; } = 0.2;
+        public bool RulerEnable
+        {
+            get { return this.ruler1.Visible; }
+            set { this.ruler1.Visible = value; }
+        }
         public FastColoredTextBox TextBox
         {
+
             get { return this.fastColoredTextBox1; }
         }
+        //
         //Method
         public DocMapTextBox()
         {
