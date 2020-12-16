@@ -12,7 +12,7 @@ namespace NotepadDIY
 {
     public partial class Form1 : Form
     {
-        string path = @"D:\";
+        string path = "";
         public Form1()
         {
             InitializeComponent();
@@ -20,7 +20,14 @@ namespace NotepadDIY
 
         private void openWorkSpaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ListDirectory(folderView, path);
+            if (string.IsNullOrEmpty(path))
+            {
+                MessageBox.Show("Path is null");
+            }
+            else
+            {
+                ListDirectory(folderView, path);
+            }
         }
         private void ListDirectory(TreeView treeView, string path)
         {
@@ -37,11 +44,27 @@ namespace NotepadDIY
                     directoryNode.Nodes.Add(CreateDirectoryNode(directory));
             }
             catch
-            { }
-            foreach (var file in directoryInfo.GetFiles())
+            {}
+            try
+            {
+                foreach (var file in directoryInfo.GetFiles())
                     directoryNode.Nodes.Add(new TreeNode(file.Name));
-            
+            }
+            catch { }
+
             return directoryNode;
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog folder = new FolderBrowserDialog())
+            {
+                if (folder.ShowDialog() == DialogResult.OK)
+                {
+                    path = folder.SelectedPath;
+                }
+            }
+        }
+
     }
 }
