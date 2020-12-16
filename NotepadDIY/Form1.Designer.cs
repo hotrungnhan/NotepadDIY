@@ -104,6 +104,9 @@ namespace NotepadDIY
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.splitToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.cToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -387,6 +390,7 @@ namespace NotepadDIY
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(262, 26);
             this.exitToolStripMenuItem.Text = "E&xit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -464,6 +468,7 @@ namespace NotepadDIY
             this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
             this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(218, 26);
             this.selectAllToolStripMenuItem.Text = "Select &All";
+            this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
@@ -483,47 +488,51 @@ namespace NotepadDIY
             // customizeToolStripMenuItem
             // 
             this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(161, 26);
+            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(198, 26);
             this.customizeToolStripMenuItem.Text = "&Customize";
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(161, 26);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(198, 26);
             this.optionsToolStripMenuItem.Text = "&Options";
             // 
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(158, 6);
+            this.toolStripSeparator9.Size = new System.Drawing.Size(195, 6);
             // 
             // goToToolStripMenuItem
             // 
             this.goToToolStripMenuItem.Name = "goToToolStripMenuItem";
-            this.goToToolStripMenuItem.Size = new System.Drawing.Size(161, 26);
+            this.goToToolStripMenuItem.Size = new System.Drawing.Size(198, 26);
             this.goToToolStripMenuItem.Text = "Go to";
             // 
             // findToolStripMenuItem
             // 
             this.findToolStripMenuItem.Name = "findToolStripMenuItem";
-            this.findToolStripMenuItem.Size = new System.Drawing.Size(161, 26);
-            this.findToolStripMenuItem.Text = "Find";
+            this.findToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.findToolStripMenuItem.Size = new System.Drawing.Size(198, 26);
+            this.findToolStripMenuItem.Text = "&Find";
+            this.findToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem_Click);
             // 
             // replaceToolStripMenuItem
             // 
             this.replaceToolStripMenuItem.Name = "replaceToolStripMenuItem";
-            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(161, 26);
-            this.replaceToolStripMenuItem.Text = "Replace";
+            this.replaceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
+            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(198, 26);
+            this.replaceToolStripMenuItem.Text = "&Replace";
+            this.replaceToolStripMenuItem.Click += new System.EventHandler(this.replaceToolStripMenuItem_Click);
             // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(158, 6);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(195, 6);
             // 
             // rulerToolStripMenuItem
             // 
             this.rulerToolStripMenuItem.Name = "rulerToolStripMenuItem";
-            this.rulerToolStripMenuItem.Size = new System.Drawing.Size(161, 26);
+            this.rulerToolStripMenuItem.Size = new System.Drawing.Size(198, 26);
             this.rulerToolStripMenuItem.Text = "Ruler";
             this.rulerToolStripMenuItem.Click += new System.EventHandler(this.rulerToolStripMenuItem_Click);
             // 
@@ -580,7 +589,8 @@ namespace NotepadDIY
             this.vBToolStripMenuItem,
             this.hTMLToolStripMenuItem,
             this.xMLToolStripMenuItem,
-            this.toolStripSeparator8});
+            this.toolStripSeparator8,
+            this.cToolStripMenuItem1});
             this.languageToolStripMenuItem.Name = "languageToolStripMenuItem";
             this.languageToolStripMenuItem.Size = new System.Drawing.Size(88, 24);
             this.languageToolStripMenuItem.Text = "Language";
@@ -590,70 +600,72 @@ namespace NotepadDIY
             this.plaintToolStripMenuItem.Checked = true;
             this.plaintToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.plaintToolStripMenuItem.Name = "plaintToolStripMenuItem";
-            this.plaintToolStripMenuItem.Size = new System.Drawing.Size(139, 26);
+            this.plaintToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.plaintToolStripMenuItem.Text = "Plain";
             this.plaintToolStripMenuItem.Click += new System.EventHandler(this.languageMenu_Click);
             // 
             // cToolStripMenuItem
             // 
             this.cToolStripMenuItem.Name = "cToolStripMenuItem";
-            this.cToolStripMenuItem.Size = new System.Drawing.Size(139, 26);
+            this.cToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.cToolStripMenuItem.Text = "CSharp";
             this.cToolStripMenuItem.Click += new System.EventHandler(this.languageMenu_Click);
             // 
             // jSONToolStripMenuItem
             // 
             this.jSONToolStripMenuItem.Name = "jSONToolStripMenuItem";
-            this.jSONToolStripMenuItem.Size = new System.Drawing.Size(139, 26);
+            this.jSONToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.jSONToolStripMenuItem.Text = "JSON";
             this.jSONToolStripMenuItem.Click += new System.EventHandler(this.languageMenu_Click);
             // 
             // luaToolStripMenuItem
             // 
             this.luaToolStripMenuItem.Name = "luaToolStripMenuItem";
-            this.luaToolStripMenuItem.Size = new System.Drawing.Size(139, 26);
+            this.luaToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.luaToolStripMenuItem.Text = "Lua";
             this.luaToolStripMenuItem.Click += new System.EventHandler(this.languageMenu_Click);
             // 
             // jSToolStripMenuItem
             // 
+            this.jSToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.runToolStripMenuItem});
             this.jSToolStripMenuItem.Name = "jSToolStripMenuItem";
-            this.jSToolStripMenuItem.Size = new System.Drawing.Size(139, 26);
+            this.jSToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.jSToolStripMenuItem.Text = "JS";
             this.jSToolStripMenuItem.Click += new System.EventHandler(this.languageMenu_Click);
             // 
             // pHpToolStripMenuItem
             // 
             this.pHpToolStripMenuItem.Name = "pHpToolStripMenuItem";
-            this.pHpToolStripMenuItem.Size = new System.Drawing.Size(139, 26);
+            this.pHpToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.pHpToolStripMenuItem.Text = "PHP";
             this.pHpToolStripMenuItem.Click += new System.EventHandler(this.languageMenu_Click);
             // 
             // vBToolStripMenuItem
             // 
             this.vBToolStripMenuItem.Name = "vBToolStripMenuItem";
-            this.vBToolStripMenuItem.Size = new System.Drawing.Size(139, 26);
+            this.vBToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.vBToolStripMenuItem.Text = "VB";
             this.vBToolStripMenuItem.Click += new System.EventHandler(this.languageMenu_Click);
             // 
             // hTMLToolStripMenuItem
             // 
             this.hTMLToolStripMenuItem.Name = "hTMLToolStripMenuItem";
-            this.hTMLToolStripMenuItem.Size = new System.Drawing.Size(139, 26);
+            this.hTMLToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.hTMLToolStripMenuItem.Text = "HTML";
             this.hTMLToolStripMenuItem.Click += new System.EventHandler(this.languageMenu_Click);
             // 
             // xMLToolStripMenuItem
             // 
             this.xMLToolStripMenuItem.Name = "xMLToolStripMenuItem";
-            this.xMLToolStripMenuItem.Size = new System.Drawing.Size(139, 26);
+            this.xMLToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.xMLToolStripMenuItem.Text = "XML";
             this.xMLToolStripMenuItem.Click += new System.EventHandler(this.languageMenu_Click);
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(136, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(221, 6);
             // 
             // splitContainer1
             // 
@@ -682,7 +694,7 @@ namespace NotepadDIY
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 1);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 4, 2, 0);
             this.groupBox1.Size = new System.Drawing.Size(145, 379);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
@@ -691,10 +703,10 @@ namespace NotepadDIY
             // folderView
             // 
             this.folderView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.folderView.Location = new System.Drawing.Point(3, 19);
+            this.folderView.Location = new System.Drawing.Point(2, 19);
             this.folderView.Margin = new System.Windows.Forms.Padding(0);
             this.folderView.Name = "folderView";
-            this.folderView.Size = new System.Drawing.Size(139, 359);
+            this.folderView.Size = new System.Drawing.Size(141, 360);
             this.folderView.TabIndex = 0;
             // 
             // splitContainer2
@@ -744,6 +756,7 @@ namespace NotepadDIY
             this.docMapTextBox.DocumentMapSize = 0.2D;
             this.docMapTextBox.Location = new System.Drawing.Point(0, 0);
             this.docMapTextBox.Name = "docMapTextBox";
+            this.docMapTextBox.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
             this.docMapTextBox.RulerEnable = false;
             this.docMapTextBox.Size = new System.Drawing.Size(635, 331);
             this.docMapTextBox.TabIndex = 0;
@@ -778,6 +791,26 @@ namespace NotepadDIY
             this.toolStripLabel1.Name = "toolStripLabel1";
             this.toolStripLabel1.Size = new System.Drawing.Size(101, 24);
             this.toolStripLabel1.Text = "FileWorkPlace";
+            // 
+            // cToolStripMenuItem1
+            // 
+            this.cToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.runToolStripMenuItem1});
+            this.cToolStripMenuItem1.Name = "cToolStripMenuItem1";
+            this.cToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.cToolStripMenuItem1.Text = "C/C++";
+            // 
+            // runToolStripMenuItem
+            // 
+            this.runToolStripMenuItem.Name = "runToolStripMenuItem";
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.runToolStripMenuItem.Text = "Run";
+            // 
+            // runToolStripMenuItem1
+            // 
+            this.runToolStripMenuItem1.Name = "runToolStripMenuItem1";
+            this.runToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.runToolStripMenuItem1.Text = "Run";
             // 
             // Form1
             // 
@@ -894,6 +927,9 @@ namespace NotepadDIY
         private System.Windows.Forms.ToolStripMenuItem rulerToolStripMenuItem;
         private FarsiLibrary.Win.FATabStripItem faTabStripItem1;
         private Components.DocMapTextBox docMapTextBox;
+        private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem1;
     }
 }
 

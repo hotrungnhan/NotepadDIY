@@ -161,5 +161,28 @@ namespace NotepadDIY
                 splitContainer2.Panel2Collapsed = true;
             }
         }
+
+        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var docMapBox = this.faTabTripMaster.SelectedItem.Controls.Find("DocMapTextBox", true).First() as DocMapTextBox;
+            docMapBox.TextBox.SelectAll();
+        }
+
+        private void findToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var docMapBox = this.faTabTripMaster.SelectedItem.Controls.Find("DocMapTextBox", true).First() as DocMapTextBox;
+            docMapBox.TextBox.ShowFindDialog();
+        }
+
+        private void replaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var docMapBox = this.faTabTripMaster.SelectedItem.Controls.Find("DocMapTextBox", true).First() as DocMapTextBox;
+            docMapBox.TextBox.ShowReplaceDialog();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
