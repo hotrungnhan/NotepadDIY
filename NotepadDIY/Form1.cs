@@ -7,16 +7,41 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.IO;
 namespace NotepadDIY
 {
     public partial class Form1 : Form
     {
+        string path = @"D:\";
         public Form1()
         {
             InitializeComponent();
         }
 
-  
+        private void openWorkSpaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ListDirectory(folderView, path);
+        }
+        private void ListDirectory(TreeView treeView, string path)
+        {
+            treeView.Nodes.Clear();
+            var rootDirectoryInfo = new DirectoryInfo(path);
+            treeView.Nodes.Add(CreateDirectoryNode(rootDirectoryInfo));
+        }
+        private static TreeNode CreateDirectoryNode(DirectoryInfo directoryInfo)
+        {
+            var directoryNode = new TreeNode(directoryInfo.Name);
+            try
+            {
+                foreach (var directory in directoryInfo.GetDirectories())
+                    directoryNode.Nodes.Add(CreateDirectoryNode(directory));
+            }
+            catch
+            { }
+            foreach (var file in directoryInfo.GetFiles())
+                    directoryNode.Nodes.Add(new TreeNode(file.Name));
+            
+            return directoryNode;
+        }
     }
 }
