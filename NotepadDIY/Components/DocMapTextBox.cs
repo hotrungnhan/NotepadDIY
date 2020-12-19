@@ -41,5 +41,10 @@ namespace NotepadDIY.Components
             //Console.WriteLine("move");
 
         }
+
+        public string GetText()
+        {
+            return fastColoredTextBox1.Text;
+        }
     }
 }

@@ -107,6 +107,8 @@ namespace NotepadDIY
             this.cToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.runCSharpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CompileStatus = new System.Windows.Forms.TextBox();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -605,11 +607,20 @@ namespace NotepadDIY
             this.plaintToolStripMenuItem.Click += new System.EventHandler(this.languageMenu_Click);
             // 
             // cToolStripMenuItem
-            // 
+            //
+            this.cToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.runCSharpToolStripMenuItem});
             this.cToolStripMenuItem.Name = "cToolStripMenuItem";
             this.cToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.cToolStripMenuItem.Text = "CSharp";
             this.cToolStripMenuItem.Click += new System.EventHandler(this.languageMenu_Click);
+            //
+            //
+            //
+            this.runCSharpToolStripMenuItem.Name = "runCSharpToolStripMenuItem";
+            this.runCSharpToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.runCSharpToolStripMenuItem.Text = "Run";
+            this.runCSharpToolStripMenuItem.Click += new System.EventHandler(this.runCSharp_Click);
             // 
             // jSONToolStripMenuItem
             // 
@@ -923,6 +934,7 @@ namespace NotepadDIY
         private System.Windows.Forms.ToolStripMenuItem goToToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem findToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem replaceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem runCSharpToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
         private System.Windows.Forms.ToolStripMenuItem rulerToolStripMenuItem;
         private FarsiLibrary.Win.FATabStripItem faTabStripItem1;
@@ -930,6 +942,7 @@ namespace NotepadDIY
         private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem1;
+        private System.Windows.Forms.TextBox CompileStatus;
     }
 }
 
