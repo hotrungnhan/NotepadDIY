@@ -12,50 +12,90 @@ namespace NotepadDIY
 {
     public partial class Form1 : Form
     {
-        string path = "";
+        private string path = @"D:\";
         public Form1()
         {
             InitializeComponent();
+           
         }
-
         private void openWorkSpaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(path))
-            {
-                MessageBox.Show("Path is null");
-            }
-            else
-            {
-                ListDirectory(folderView, path);
-            }
-        }
-        private void ListDirectory(TreeView treeView, string path)
-        {
-            treeView.Nodes.Clear();
-            var rootDirectoryInfo = new DirectoryInfo(path);
-            treeView.Nodes.Add(CreateDirectoryNode(rootDirectoryInfo));
-        }
-        private static TreeNode CreateDirectoryNode(DirectoryInfo directoryInfo)
-        {
-            var directoryNode = new TreeNode(directoryInfo.Name);
-            try
-            {
-                foreach (var directory in directoryInfo.GetDirectories())
-                    directoryNode.Nodes.Add(CreateDirectoryNode(directory));
-            }
-            catch
-            {}
-            try
-            {
-                foreach (var file in directoryInfo.GetFiles())
-                    directoryNode.Nodes.Add(new TreeNode(file.Name));
-            }
-            catch { }
-
-            return directoryNode;
+            folderView.Nodes.Clear();
+            TreeNode node = new TreeNode(path, 1, 1);
+            node.Nodes.Add("...");
+            node.Tag = path;
+            folderView.Nodes.Add(node);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void folderView_BeforeExpand(object sender, TreeViewCancelEventArgs e)
+        {
+            if (e.Node.Nodes.Count > 0)
+            {
+                e.Node.Nodes.Clear();
+                //get the list of sub direcotires
+                string[] dirs = Directory.GetDirectories(e.Node.Tag.ToString());
+
+                foreach (string dir in dirs)
+                {
+                    DirectoryInfo di = new DirectoryInfo(dir);
+                    TreeNode node = new TreeNode(di.Name, 1, 1);
+
+                    try
+                    {
+                        //keep the directory's full path in the tag for use later
+                        node.Tag = dir;
+
+                        // if the directory has sub directories add the place holder
+                        if (di.GetDirectories().Count() > 0)
+                            node.Nodes.Add(null, "...", 0, 0);
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        //display a locked folder icon
+                        node.ImageIndex = 0;
+                        node.SelectedImageIndex = 0;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "DirectoryLister",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    finally
+                    {
+                        e.Node.Nodes.Add(node);
+                    }
+                }
+                string[] filePath = Directory.GetFiles(e.Node.Tag.ToString());
+                foreach (string filepath  in filePath)
+                {
+                    FileInfo file = new FileInfo(filepath);
+                    TreeNode node = new TreeNode(file.Name, 0, 0);
+                    try
+                    {
+                        //keep the directory's full path in the tag for use later
+                        node.Tag = filepath;
+                        // if the directory has sub directories add the place holder
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        //display a locked folder icon
+                        node.ImageIndex = 0;
+                        node.SelectedImageIndex = 0;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "DirectoryLister",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    finally
+                    {
+                        e.Node.Nodes.Add(node);
+                    }
+                }
+
+            }
+        }
+         private void button1_Click(object sender, EventArgs e)
         {
             using (FolderBrowserDialog folder = new FolderBrowserDialog())
             {
@@ -66,5 +106,13 @@ namespace NotepadDIY
             }
         }
 
+        private void folderView_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
+        {
+            if (e.Node.Nodes.Count > 1)
+            {
+                e.Node.Nodes.Clear();
+                e.Node.Nodes.Add(null, "...", 0, 0);
+            }
+        }
     }
 }

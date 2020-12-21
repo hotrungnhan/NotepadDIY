@@ -29,6 +29,7 @@ namespace NotepadDIY
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.ToolStripStatusLabel currentLineCountStatus;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -82,16 +83,17 @@ namespace NotepadDIY
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
             this.folderView = new System.Windows.Forms.TreeView();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.faTabTripMaster = new FarsiLibrary.Win.FATabStrip();
             this.faTabStripItem1 = new FarsiLibrary.Win.FATabStripItem();
-            this.docMapTextBox2 = new NotepadDIY.Components.DocMapTextBox();
             this.faTabTripSlave = new FarsiLibrary.Win.FATabStrip();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.splitToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.faTabStripItem2 = new FarsiLibrary.Win.FATabStripItem();
             this.documentMap1 = new FastColoredTextBoxNS.DocumentMap();
+            this.docMapTextBox2 = new NotepadDIY.Components.DocMapTextBox();
             this.docMapTextBox1 = new NotepadDIY.Components.DocMapTextBox();
             currentLineCountStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1.SuspendLayout();
@@ -161,9 +163,9 @@ namespace NotepadDIY
             this.toolStripSeparator1,
             this.helpToolStripButton,
             this.toolStripSeparator8});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 36);
+            this.toolStrip1.Location = new System.Drawing.Point(0, 33);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(880, 38);
+            this.toolStrip1.Size = new System.Drawing.Size(880, 29);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -173,7 +175,7 @@ namespace NotepadDIY
             this.newToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripButton.Image")));
             this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripButton.Name = "newToolStripButton";
-            this.newToolStripButton.Size = new System.Drawing.Size(34, 33);
+            this.newToolStripButton.Size = new System.Drawing.Size(34, 24);
             this.newToolStripButton.Text = "&New";
             // 
             // openToolStripButton
@@ -182,7 +184,7 @@ namespace NotepadDIY
             this.openToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripButton.Image")));
             this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripButton.Name = "openToolStripButton";
-            this.openToolStripButton.Size = new System.Drawing.Size(34, 33);
+            this.openToolStripButton.Size = new System.Drawing.Size(34, 24);
             this.openToolStripButton.Text = "&Open";
             // 
             // saveToolStripButton
@@ -191,7 +193,7 @@ namespace NotepadDIY
             this.saveToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripButton.Image")));
             this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripButton.Name = "saveToolStripButton";
-            this.saveToolStripButton.Size = new System.Drawing.Size(34, 33);
+            this.saveToolStripButton.Size = new System.Drawing.Size(34, 24);
             this.saveToolStripButton.Text = "&Save";
             // 
             // printToolStripButton
@@ -200,13 +202,13 @@ namespace NotepadDIY
             this.printToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("printToolStripButton.Image")));
             this.printToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.printToolStripButton.Name = "printToolStripButton";
-            this.printToolStripButton.Size = new System.Drawing.Size(34, 33);
+            this.printToolStripButton.Size = new System.Drawing.Size(34, 24);
             this.printToolStripButton.Text = "&Print";
             // 
             // toolStripSeparator
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(6, 38);
+            this.toolStripSeparator.Size = new System.Drawing.Size(6, 29);
             // 
             // cutToolStripButton
             // 
@@ -214,7 +216,7 @@ namespace NotepadDIY
             this.cutToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("cutToolStripButton.Image")));
             this.cutToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.cutToolStripButton.Name = "cutToolStripButton";
-            this.cutToolStripButton.Size = new System.Drawing.Size(34, 33);
+            this.cutToolStripButton.Size = new System.Drawing.Size(34, 24);
             this.cutToolStripButton.Text = "C&ut";
             // 
             // copyToolStripButton
@@ -223,7 +225,7 @@ namespace NotepadDIY
             this.copyToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("copyToolStripButton.Image")));
             this.copyToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.copyToolStripButton.Name = "copyToolStripButton";
-            this.copyToolStripButton.Size = new System.Drawing.Size(34, 33);
+            this.copyToolStripButton.Size = new System.Drawing.Size(34, 24);
             this.copyToolStripButton.Text = "&Copy";
             // 
             // pasteToolStripButton
@@ -232,13 +234,13 @@ namespace NotepadDIY
             this.pasteToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("pasteToolStripButton.Image")));
             this.pasteToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.pasteToolStripButton.Name = "pasteToolStripButton";
-            this.pasteToolStripButton.Size = new System.Drawing.Size(34, 33);
+            this.pasteToolStripButton.Size = new System.Drawing.Size(34, 24);
             this.pasteToolStripButton.Text = "&Paste";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 38);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 29);
             // 
             // helpToolStripButton
             // 
@@ -246,13 +248,13 @@ namespace NotepadDIY
             this.helpToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("helpToolStripButton.Image")));
             this.helpToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.helpToolStripButton.Name = "helpToolStripButton";
-            this.helpToolStripButton.Size = new System.Drawing.Size(34, 33);
+            this.helpToolStripButton.Size = new System.Drawing.Size(34, 24);
             this.helpToolStripButton.Text = "He&lp";
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 38);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 29);
             // 
             // menuStrip1
             // 
@@ -267,7 +269,7 @@ namespace NotepadDIY
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(880, 36);
+            this.menuStrip1.Size = new System.Drawing.Size(880, 33);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -286,7 +288,7 @@ namespace NotepadDIY
             this.toolStripSeparator4,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 32);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // newToolStripMenuItem
@@ -295,13 +297,13 @@ namespace NotepadDIY
             this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(252, 34);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.newToolStripMenuItem.Text = "&New";
             // 
             // openWorkSpaceToolStripMenuItem
             // 
             this.openWorkSpaceToolStripMenuItem.Name = "openWorkSpaceToolStripMenuItem";
-            this.openWorkSpaceToolStripMenuItem.Size = new System.Drawing.Size(252, 34);
+            this.openWorkSpaceToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.openWorkSpaceToolStripMenuItem.Text = "Open &WorkSpace";
             this.openWorkSpaceToolStripMenuItem.Click += new System.EventHandler(this.openWorkSpaceToolStripMenuItem_Click);
             // 
@@ -311,13 +313,13 @@ namespace NotepadDIY
             this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(252, 34);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.openToolStripMenuItem.Text = "&Open";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(249, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(267, 6);
             // 
             // saveToolStripMenuItem
             // 
@@ -325,19 +327,19 @@ namespace NotepadDIY
             this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(252, 34);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.saveToolStripMenuItem.Text = "&Save";
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(252, 34);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.saveAsToolStripMenuItem.Text = "Save &As";
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(249, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(267, 6);
             // 
             // printToolStripMenuItem
             // 
@@ -345,7 +347,7 @@ namespace NotepadDIY
             this.printToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
             this.printToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(252, 34);
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.printToolStripMenuItem.Text = "&Print";
             // 
             // printPreviewToolStripMenuItem
@@ -353,18 +355,18 @@ namespace NotepadDIY
             this.printPreviewToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("printPreviewToolStripMenuItem.Image")));
             this.printPreviewToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
-            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(252, 34);
+            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.printPreviewToolStripMenuItem.Text = "Print Pre&view";
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(249, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(267, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(252, 34);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.exitToolStripMenuItem.Text = "E&xit";
             // 
             // editToolStripMenuItem
@@ -379,7 +381,7 @@ namespace NotepadDIY
             this.toolStripSeparator6,
             this.selectAllToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(58, 32);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(58, 29);
             this.editToolStripMenuItem.Text = "&Edit";
             // 
             // undoToolStripMenuItem
@@ -445,7 +447,7 @@ namespace NotepadDIY
             this.customizeToolStripMenuItem,
             this.optionsToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(69, 32);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(69, 29);
             this.toolsToolStripMenuItem.Text = "&Tools";
             // 
             // customizeToolStripMenuItem
@@ -469,7 +471,7 @@ namespace NotepadDIY
             this.toolStripSeparator7,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(65, 32);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(65, 29);
             this.helpToolStripMenuItem.Text = "&Help";
             // 
             // contentsToolStripMenuItem
@@ -504,13 +506,13 @@ namespace NotepadDIY
             // languageToolStripMenuItem
             // 
             this.languageToolStripMenuItem.Name = "languageToolStripMenuItem";
-            this.languageToolStripMenuItem.Size = new System.Drawing.Size(105, 32);
+            this.languageToolStripMenuItem.Size = new System.Drawing.Size(105, 29);
             this.languageToolStripMenuItem.Text = "Language";
             // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 74);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 62);
             this.splitContainer1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.splitContainer1.Name = "splitContainer1";
             // 
@@ -522,7 +524,7 @@ namespace NotepadDIY
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Panel2.Controls.Add(this.toolStrip2);
-            this.splitContainer1.Size = new System.Drawing.Size(880, 460);
+            this.splitContainer1.Size = new System.Drawing.Size(880, 472);
             this.splitContainer1.SplitterDistance = 164;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 4;
@@ -536,7 +538,7 @@ namespace NotepadDIY
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox1.Size = new System.Drawing.Size(164, 460);
+            this.groupBox1.Size = new System.Drawing.Size(164, 472);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "WorkSpace";
@@ -545,7 +547,7 @@ namespace NotepadDIY
             // 
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.button1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.button1.Location = new System.Drawing.Point(3, 421);
+            this.button1.Location = new System.Drawing.Point(3, 433);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(158, 35);
             this.button1.TabIndex = 1;
@@ -556,11 +558,23 @@ namespace NotepadDIY
             // folderView
             // 
             this.folderView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.folderView.ImageIndex = 0;
+            this.folderView.ImageList = this.imageList1;
             this.folderView.Location = new System.Drawing.Point(3, 23);
             this.folderView.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.folderView.Name = "folderView";
-            this.folderView.Size = new System.Drawing.Size(158, 433);
+            this.folderView.SelectedImageIndex = 0;
+            this.folderView.Size = new System.Drawing.Size(158, 445);
             this.folderView.TabIndex = 0;
+            this.folderView.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.folderView_BeforeCollapse);
+            this.folderView.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.folderView_BeforeExpand);
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "Document-icon.png");
+            this.imageList1.Images.SetKeyName(1, "Folder-Generic-Green-icon.png");
             // 
             // splitContainer2
             // 
@@ -577,7 +591,7 @@ namespace NotepadDIY
             // 
             this.splitContainer2.Panel2.Controls.Add(this.faTabTripSlave);
             this.splitContainer2.Panel2Collapsed = true;
-            this.splitContainer2.Size = new System.Drawing.Size(714, 426);
+            this.splitContainer2.Size = new System.Drawing.Size(714, 438);
             this.splitContainer2.SplitterDistance = 317;
             this.splitContainer2.SplitterWidth = 2;
             this.splitContainer2.TabIndex = 1;
@@ -591,7 +605,7 @@ namespace NotepadDIY
             this.faTabTripMaster.Location = new System.Drawing.Point(0, 0);
             this.faTabTripMaster.Name = "faTabTripMaster";
             this.faTabTripMaster.SelectedItem = this.faTabStripItem1;
-            this.faTabTripMaster.Size = new System.Drawing.Size(714, 426);
+            this.faTabTripMaster.Size = new System.Drawing.Size(714, 438);
             this.faTabTripMaster.TabIndex = 0;
             this.faTabTripMaster.Text = "faTabStrip1";
             // 
@@ -601,18 +615,9 @@ namespace NotepadDIY
             this.faTabStripItem1.IsDrawn = true;
             this.faTabStripItem1.Name = "faTabStripItem1";
             this.faTabStripItem1.Selected = true;
-            this.faTabStripItem1.Size = new System.Drawing.Size(712, 405);
+            this.faTabStripItem1.Size = new System.Drawing.Size(712, 417);
             this.faTabStripItem1.TabIndex = 0;
             this.faTabStripItem1.Title = "TabStrip Page 1";
-            // 
-            // docMapTextBox2
-            // 
-            this.docMapTextBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.docMapTextBox2.Location = new System.Drawing.Point(0, 0);
-            this.docMapTextBox2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.docMapTextBox2.Name = "docMapTextBox2";
-            this.docMapTextBox2.Size = new System.Drawing.Size(712, 405);
-            this.docMapTextBox2.TabIndex = 0;
             // 
             // faTabTripSlave
             // 
@@ -671,6 +676,15 @@ namespace NotepadDIY
             this.documentMap1.Size = new System.Drawing.Size(313, 324);
             this.documentMap1.TabIndex = 1;
             this.documentMap1.Target = null;
+            // 
+            // docMapTextBox2
+            // 
+            this.docMapTextBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.docMapTextBox2.Location = new System.Drawing.Point(0, 0);
+            this.docMapTextBox2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.docMapTextBox2.Name = "docMapTextBox2";
+            this.docMapTextBox2.Size = new System.Drawing.Size(712, 417);
+            this.docMapTextBox2.TabIndex = 0;
             // 
             // docMapTextBox1
             // 
@@ -785,6 +799,7 @@ namespace NotepadDIY
         private FarsiLibrary.Win.FATabStripItem faTabStripItem1;
         private Components.DocMapTextBox docMapTextBox2;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }
 
