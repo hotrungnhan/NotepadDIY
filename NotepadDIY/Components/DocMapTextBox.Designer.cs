@@ -60,7 +60,6 @@ namespace NotepadDIY.Components
             this.fastColoredTextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBox1.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fastColoredTextBox1.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBox1.IsReplaceMode = false;
             this.fastColoredTextBox1.Location = new System.Drawing.Point(0, 24);
             this.fastColoredTextBox1.Name = "fastColoredTextBox1";
@@ -99,9 +98,9 @@ namespace NotepadDIY.Components
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.documentMap1);
             this.Controls.Add(this.fastColoredTextBox1);
             this.Controls.Add(this.ruler1);
-            this.Controls.Add(this.documentMap1);
             this.Name = "DocMapTextBox";
             this.Size = new System.Drawing.Size(463, 251);
             this.Resize += new System.EventHandler(this.DocMapTextBox_Resize);
