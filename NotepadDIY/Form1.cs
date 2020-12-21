@@ -22,7 +22,6 @@ namespace NotepadDIY
         public Form1()
         {
             InitializeComponent();
-
         }
         private void folderView_BeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
