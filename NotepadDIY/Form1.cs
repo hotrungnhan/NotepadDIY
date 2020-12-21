@@ -12,21 +12,12 @@ namespace NotepadDIY
 {
     public partial class Form1 : Form
     {
-        private string path = @"D:\";
+        private string path = "";
         public Form1()
         {
             InitializeComponent();
-           
-        }
-        private void openWorkSpaceToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            folderView.Nodes.Clear();
-            TreeNode node = new TreeNode(path, 1, 1);
-            node.Nodes.Add("...");
-            node.Tag = path;
-            folderView.Nodes.Add(node);
-        }
 
+        }
         private void folderView_BeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
             if (e.Node.Nodes.Count > 0)
@@ -66,7 +57,7 @@ namespace NotepadDIY
                     }
                 }
                 string[] filePath = Directory.GetFiles(e.Node.Tag.ToString());
-                foreach (string filepath  in filePath)
+                foreach (string filepath in filePath)
                 {
                     FileInfo file = new FileInfo(filepath);
                     TreeNode node = new TreeNode(file.Name, 0, 0);
@@ -95,16 +86,6 @@ namespace NotepadDIY
 
             }
         }
-         private void button1_Click(object sender, EventArgs e)
-        {
-            using (FolderBrowserDialog folder = new FolderBrowserDialog())
-            {
-                if (folder.ShowDialog() == DialogResult.OK)
-                {
-                    path = folder.SelectedPath;
-                }
-            }
-        }
 
         private void folderView_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
         {
@@ -113,6 +94,22 @@ namespace NotepadDIY
                 e.Node.Nodes.Clear();
                 e.Node.Nodes.Add(null, "...", 0, 0);
             }
+        }
+
+        private void openFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog folder = new FolderBrowserDialog())
+            {
+                if (folder.ShowDialog() == DialogResult.OK)
+                {
+                    path = folder.SelectedPath;
+                }
+            }
+            folderView.Nodes.Clear();
+            TreeNode node = new TreeNode(path, 1, 1);
+            node.Nodes.Add("...");
+            node.Tag = path;
+            folderView.Nodes.Add(node);
         }
     }
 }
