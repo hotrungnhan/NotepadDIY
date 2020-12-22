@@ -62,7 +62,7 @@ namespace NotepadDIY.Components
             this.fastColoredTextBox1.CharHeight = 18;
             this.fastColoredTextBox1.CharWidth = 10;
             this.fastColoredTextBox1.ContextMenuStrip = this.contextMenuStrip1;
-            this.fastColoredTextBox1.Cursor = System.Windows.Forms.Cursors.WaitCursor;
+            this.fastColoredTextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBox1.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.fastColoredTextBox1.IsReplaceMode = false;
@@ -74,8 +74,8 @@ namespace NotepadDIY.Components
             this.fastColoredTextBox1.ShowFoldingLines = true;
             this.fastColoredTextBox1.Size = new System.Drawing.Size(463, 227);
             this.fastColoredTextBox1.TabIndex = 0;
-            this.fastColoredTextBox1.UseWaitCursor = true;
             this.fastColoredTextBox1.Zoom = 100;
+            this.fastColoredTextBox1.TextChanging += new System.EventHandler<FastColoredTextBoxNS.TextChangingEventArgs>(this.fastColoredTextBox1_TextChanging);
             // 
             // contextMenuStrip1
             // 

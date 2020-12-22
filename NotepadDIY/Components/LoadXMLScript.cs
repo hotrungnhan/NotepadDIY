@@ -11,10 +11,10 @@ namespace NotepadDIY.Components
     static class LoadXMLScript
     {
         static bool isLoad = false;
-        static private Dictionary<string, string> ScriptPathDict = new Dictionary<string, string>();
+        static public Dictionary<string, string> ScriptPathDict { get; set; } = new Dictionary<string, string>();
         static public void LoadFile()
         {
-            if (isLoad==true)
+            if (isLoad == true)
             {
                 try
                 {

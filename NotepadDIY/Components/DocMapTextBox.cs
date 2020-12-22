@@ -9,12 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using NotepadDIY.Components.Ext;
 using FastColoredTextBoxNS;
+using FarsiLibrary.Win;
 using System.IO;
 namespace NotepadDIY.Components
 {
     public partial class DocMapTextBox : UserControl
     {
         //property
+        bool is_change = false;
         static float BindModeSizeMB = 1;
         public double DocumentMapSize { get; set; } = 0.2;
         public bool RulerEnable
@@ -33,7 +35,6 @@ namespace NotepadDIY.Components
         {
             InitializeComponent();
         }
-
         private void DocMapTextBox_Resize(object sender, EventArgs e)
         {
             if (RulerEnable)
@@ -67,6 +68,7 @@ namespace NotepadDIY.Components
             {
                 MessageBox.Show("file not exists");
             }
+            is_change = false;
         }
 
 
@@ -91,6 +93,17 @@ namespace NotepadDIY.Components
                 Console.WriteLine("Run");
                 this.fastColoredTextBox1.CloseBindingFile();
                 this.fastColoredTextBox1.Dispose();
+            }
+        }
+
+        private void fastColoredTextBox1_TextChanging(object sender, TextChangingEventArgs e)
+        {
+            var par = this.Parent as FATabStripItem;
+
+            if (par != null && is_change == false)
+            {
+                par.Title = par.Title + "*";
+                is_change = true;
             }
         }
     }

@@ -24,6 +24,14 @@ namespace NotepadDIY
         {
             InitializeComponent();
             LoadXMLScript.LoadFile();
+            foreach (string entry in LoadXMLScript.ScriptPathDict.Keys)
+            {
+                var newitem = new ToolStripMenuItem();
+                newitem.Text = entry;
+                this.languageToolStripMenuItem.DropDownItems.Add(newitem);
+            }
+
+
         }
         private DocMapTextBox getCurrentDocMapBox()
         {
@@ -302,9 +310,10 @@ namespace NotepadDIY
                 newToolStripButton.PerformClick();
                 var docMapBox = getCurrentDocMapBox();
                 if (docMapBox == null) return;
-                this.faTabTripMaster.SelectedItem.Title = Path.GetFileName(opendialog.FileName);
                 docMapBox.LoadFile(opendialog.FileName);
+                this.faTabTripMaster.SelectedItem.Title = Path.GetFileName(opendialog.FileName);
             }
+        
         }
     }
 }
