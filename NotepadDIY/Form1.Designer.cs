@@ -104,12 +104,12 @@ namespace NotepadDIY
             this.folderView = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.splitToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.faTabTripMaster = new FarsiLibrary.Win.FATabStrip();
             this.faTabStripItem1 = new FarsiLibrary.Win.FATabStripItem();
             this.DocMapTextBox = new NotepadDIY.Components.DocMapTextBox();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.splitToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -121,10 +121,10 @@ namespace NotepadDIY
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            this.toolStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.faTabTripMaster)).BeginInit();
             this.faTabTripMaster.SuspendLayout();
             this.faTabStripItem1.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -135,10 +135,10 @@ namespace NotepadDIY
             this.currentLineCountStatus,
             this.currentLanguageStatus});
             this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.statusStrip1.Location = new System.Drawing.Point(0, 432);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 818);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 15, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(783, 26);
+            this.statusStrip1.Size = new System.Drawing.Size(1710, 26);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -179,7 +179,7 @@ namespace NotepadDIY
             this.redoToolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 26);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(783, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(1710, 27);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -201,6 +201,7 @@ namespace NotepadDIY
             this.openToolStripButton.Name = "openToolStripButton";
             this.openToolStripButton.Size = new System.Drawing.Size(29, 24);
             this.openToolStripButton.Text = "&Open";
+            this.openToolStripButton.Click += new System.EventHandler(this.openFolderToolStripMenuItem_Click);
             // 
             // saveToolStripButton
             // 
@@ -254,21 +255,23 @@ namespace NotepadDIY
             // undoToolStripButton
             // 
             this.undoToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.undoToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("undoToolStripButton.Image")));
+            this.undoToolStripButton.Image = global::NotepadDIY.Properties.Resources.Visualpharm_Must_Have_Undo;
             this.undoToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.undoToolStripButton.Name = "undoToolStripButton";
             this.undoToolStripButton.Size = new System.Drawing.Size(29, 24);
             this.undoToolStripButton.Text = "toolStripButton1";
+            this.undoToolStripButton.ToolTipText = "Undo";
             this.undoToolStripButton.Click += new System.EventHandler(this.undoToolStripButton_Click);
             // 
             // redoToolStripButton
             // 
             this.redoToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.redoToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("redoToolStripButton.Image")));
+            this.redoToolStripButton.Image = global::NotepadDIY.Properties.Resources.Visualpharm_Must_Have_Redo;
             this.redoToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.redoToolStripButton.Name = "redoToolStripButton";
             this.redoToolStripButton.Size = new System.Drawing.Size(29, 24);
             this.redoToolStripButton.Text = "toolStripButton1";
+            this.redoToolStripButton.ToolTipText = "Redo";
             this.redoToolStripButton.Click += new System.EventHandler(this.redoToolStripButton_Click);
             // 
             // toolStripSeparator8
@@ -281,6 +284,7 @@ namespace NotepadDIY
             this.openFileToolStripMenuItem.Name = "openFileToolStripMenuItem";
             this.openFileToolStripMenuItem.Size = new System.Drawing.Size(76, 24);
             this.openFileToolStripMenuItem.Text = "Open File";
+            this.openFileToolStripMenuItem.Click += new System.EventHandler(this.openFileToolStripMenuItem_Click);
             // 
             // helpToolStripButton
             // 
@@ -302,7 +306,7 @@ namespace NotepadDIY
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 1, 0, 1);
-            this.menuStrip1.Size = new System.Drawing.Size(783, 26);
+            this.menuStrip1.Size = new System.Drawing.Size(1710, 26);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -348,7 +352,7 @@ namespace NotepadDIY
             // closeTabToolStripMenuItem
             // 
             this.closeTabToolStripMenuItem.Name = "closeTabToolStripMenuItem";
-            this.closeTabToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+            this.closeTabToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.C)));
             this.closeTabToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
             this.closeTabToolStripMenuItem.Text = "Close &Tab";
@@ -434,7 +438,7 @@ namespace NotepadDIY
             // redoToolStripMenuItem
             // 
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+            this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.Z)));
             this.redoToolStripMenuItem.Size = new System.Drawing.Size(218, 26);
             this.redoToolStripMenuItem.Text = "&Redo";
@@ -713,8 +717,8 @@ namespace NotepadDIY
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Panel2.Controls.Add(this.toolStrip2);
-            this.splitContainer1.Size = new System.Drawing.Size(783, 379);
-            this.splitContainer1.SplitterDistance = 145;
+            this.splitContainer1.Size = new System.Drawing.Size(1710, 765);
+            this.splitContainer1.SplitterDistance = 316;
             this.splitContainer1.SplitterWidth = 1;
             this.splitContainer1.TabIndex = 4;
             // 
@@ -726,7 +730,7 @@ namespace NotepadDIY
             this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 4, 2, 0);
-            this.groupBox1.Size = new System.Drawing.Size(145, 379);
+            this.groupBox1.Size = new System.Drawing.Size(316, 765);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "WorkSpace";
@@ -739,10 +743,11 @@ namespace NotepadDIY
             this.folderView.Location = new System.Drawing.Point(2, 19);
             this.folderView.Name = "folderView";
             this.folderView.SelectedImageIndex = 0;
-            this.folderView.Size = new System.Drawing.Size(141, 360);
+            this.folderView.Size = new System.Drawing.Size(312, 746);
             this.folderView.TabIndex = 0;
             this.folderView.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.folderView_BeforeCollapse);
             this.folderView.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.folderView_BeforeExpand);
+            this.folderView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.folderView_NodeMouseClick);
             // 
             // imageList1
             // 
@@ -762,9 +767,48 @@ namespace NotepadDIY
             // 
             this.splitContainer2.Panel1.Controls.Add(this.faTabTripMaster);
             this.splitContainer2.Panel2Collapsed = true;
-            this.splitContainer2.Size = new System.Drawing.Size(637, 352);
+            this.splitContainer2.Size = new System.Drawing.Size(1393, 738);
             this.splitContainer2.SplitterWidth = 1;
             this.splitContainer2.TabIndex = 1;
+            // 
+            // faTabTripMaster
+            // 
+            this.faTabTripMaster.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.faTabTripMaster.Font = new System.Drawing.Font("Tahoma", 8.25F);
+            this.faTabTripMaster.Items.AddRange(new FarsiLibrary.Win.FATabStripItem[] {
+            this.faTabStripItem1});
+            this.faTabTripMaster.Location = new System.Drawing.Point(0, 0);
+            this.faTabTripMaster.Name = "faTabTripMaster";
+            this.faTabTripMaster.SelectedItem = this.faTabStripItem1;
+            this.faTabTripMaster.Size = new System.Drawing.Size(1393, 738);
+            this.faTabTripMaster.TabIndex = 0;
+            this.faTabTripMaster.Text = "faTabStrip1";
+            this.faTabTripMaster.TabStripItemSelectionChanged += new FarsiLibrary.Win.TabStripItemChangedHandler(this.faTabTripMaster_TabStripItemSelectionChanged);
+            this.faTabTripMaster.Click += new System.EventHandler(this.faTabTripMaster_Click);
+            this.faTabTripMaster.Enter += new System.EventHandler(this.faTabTripMaster_Enter);
+            // 
+            // faTabStripItem1
+            // 
+            this.faTabStripItem1.Controls.Add(this.DocMapTextBox);
+            this.faTabStripItem1.IsDrawn = true;
+            this.faTabStripItem1.Name = "faTabStripItem1";
+            this.faTabStripItem1.Selected = true;
+            this.faTabStripItem1.Size = new System.Drawing.Size(1391, 717);
+            this.faTabStripItem1.TabIndex = 0;
+            this.faTabStripItem1.Title = "Untitled-0";
+            // 
+            // DocMapTextBox
+            // 
+            this.DocMapTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DocMapTextBox.DocumentMapSize = 0.2D;
+            this.DocMapTextBox.Location = new System.Drawing.Point(0, 0);
+            this.DocMapTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.DocMapTextBox.Name = "DocMapTextBox";
+            this.DocMapTextBox.TextBox.TextChanged += textboxUpdateInfo_TextChange;
+            this.DocMapTextBox.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.DocMapTextBox.RulerEnable = false;
+            this.DocMapTextBox.Size = new System.Drawing.Size(1391, 717);
+            this.DocMapTextBox.TabIndex = 0;
             // 
             // toolStrip2
             // 
@@ -777,7 +821,7 @@ namespace NotepadDIY
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.toolStrip2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.toolStrip2.Size = new System.Drawing.Size(637, 27);
+            this.toolStrip2.Size = new System.Drawing.Size(1393, 27);
             this.toolStrip2.TabIndex = 2;
             this.toolStrip2.Text = "toolStrip2";
             // 
@@ -797,57 +841,18 @@ namespace NotepadDIY
             this.toolStripLabel1.Size = new System.Drawing.Size(101, 24);
             this.toolStripLabel1.Text = "FileWorkPlace";
             // 
-            // faTabTripMaster
-            // 
-            this.faTabTripMaster.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.faTabTripMaster.Font = new System.Drawing.Font("Tahoma", 8.25F);
-            this.faTabTripMaster.Items.AddRange(new FarsiLibrary.Win.FATabStripItem[] {
-            this.faTabStripItem1});
-            this.faTabTripMaster.Location = new System.Drawing.Point(0, 0);
-            this.faTabTripMaster.Name = "faTabTripMaster";
-            this.faTabTripMaster.SelectedItem = this.faTabStripItem1;
-            this.faTabTripMaster.Size = new System.Drawing.Size(637, 352);
-            this.faTabTripMaster.TabIndex = 0;
-            this.faTabTripMaster.Text = "faTabStrip1";
-            this.faTabTripMaster.TabStripItemSelectionChanged += new FarsiLibrary.Win.TabStripItemChangedHandler(this.faTabTripMaster_TabStripItemSelectionChanged);
-            this.faTabTripMaster.Click += new System.EventHandler(this.faTabTripMaster_Click);
-            this.faTabTripMaster.Enter += new System.EventHandler(this.faTabTripMaster_Enter);
-            // 
-            // faTabStripItem1
-            // 
-            this.faTabStripItem1.Controls.Add(this.DocMapTextBox);
-            this.faTabStripItem1.IsDrawn = true;
-            this.faTabStripItem1.Name = "faTabStripItem1";
-            this.faTabStripItem1.Selected = true;
-            this.faTabStripItem1.Size = new System.Drawing.Size(635, 331);
-            this.faTabStripItem1.TabIndex = 0;
-            this.faTabStripItem1.Title = "Untitled-0";
-            // 
-            // DocMapTextBox
-            // 
-            this.DocMapTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DocMapTextBox.DocumentMapSize = 0.2D;
-            this.DocMapTextBox.Location = new System.Drawing.Point(0, 0);
-            this.DocMapTextBox.Name = "DocMapTextBox";
-            this.DocMapTextBox.TextBox.Text = "Welcome !";
-            this.DocMapTextBox.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
-            this.DocMapTextBox.RulerEnable = false;
-            this.DocMapTextBox.Size = new System.Drawing.Size(635, 331);
-            this.DocMapTextBox.TabIndex = 0;
-            this.DocMapTextBox.TextBox.TextChanged += textboxUpdateInfo_TextChange;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(783, 458);
+            this.ClientSize = new System.Drawing.Size(1710, 844);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.MinimumSize = new System.Drawing.Size(798, 495);
+            this.MinimumSize = new System.Drawing.Size(798, 493);
             this.Name = "Form1";
             this.Text = "Form1";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -866,18 +871,17 @@ namespace NotepadDIY
             this.splitContainer2.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            this.toolStrip2.ResumeLayout(false);
-            this.toolStrip2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.faTabTripMaster)).EndInit();
             this.faTabTripMaster.ResumeLayout(false);
             this.faTabStripItem1.ResumeLayout(false);
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton openFileToolStripMenuItem;
@@ -956,6 +960,7 @@ namespace NotepadDIY
         private FarsiLibrary.Win.FATabStrip faTabTripMaster;
         private FarsiLibrary.Win.FATabStripItem faTabStripItem1;
         private Components.DocMapTextBox DocMapTextBox;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }
 

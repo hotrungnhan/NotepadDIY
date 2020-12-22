@@ -9,11 +9,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using NotepadDIY.Components.Ext;
 using FastColoredTextBoxNS;
+using System.IO;
 namespace NotepadDIY.Components
 {
     public partial class DocMapTextBox : UserControl
     {
         //property
+        static float BindModeSizeMB = 1;
         public double DocumentMapSize { get; set; } = 0.2;
         public bool RulerEnable
         {
@@ -34,12 +36,63 @@ namespace NotepadDIY.Components
 
         private void DocMapTextBox_Resize(object sender, EventArgs e)
         {
-            this.documentMap1.Size = SizeExt.Mult(this.fastColoredTextBox1.Size, DocumentMapSize);
-            //Console.WriteLine(this.documentMap1.Size);
-            this.documentMap1.Location = new Point(this.fastColoredTextBox1.Size.Width - this.documentMap1.Size.Width - System.Windows.Forms.SystemInformation.VerticalScrollBarWidth, 0);
+            if (RulerEnable)
+            {
+                this.documentMap1.Size = SizeExt.Mult(this.fastColoredTextBox1.Size, DocumentMapSize);
+                this.documentMap1.Location = new Point(this.fastColoredTextBox1.Size.Width - this.documentMap1.Size.Width - System.Windows.Forms.SystemInformation.VerticalScrollBarWidth, ruler1.Height);
+            }
+            else
+            {
+                this.documentMap1.Size = SizeExt.Mult(this.fastColoredTextBox1.Size, DocumentMapSize);
+                this.documentMap1.Location = new Point(this.fastColoredTextBox1.Size.Width - this.documentMap1.Size.Width - System.Windows.Forms.SystemInformation.VerticalScrollBarWidth, 0);
+            }
+        }
+        public void LoadFile(string path)
+        {
+            if (File.Exists(path))
+            {
 
-            //Console.WriteLine("move");
+                var filelength = new FileInfo(path).Length;
+                if (filelength < BindModeSizeMB * 1024 * 1024)
+                {
+                    this.fastColoredTextBox1.OpenFile(path);
+                }
+                else
+                {
+                    if (MessageBox.Show("File is Too big .Do you want to open file as Bindding mode ? ", "DOCmap", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        this.fastColoredTextBox1.OpenBindingFile(path, Encoding.UTF8);
+                }
+            }
+            else
+            {
+                MessageBox.Show("file not exists");
+            }
+        }
 
+
+        private void ruler1_VisibleChanged(object sender, EventArgs e)
+        {
+            if (RulerEnable)
+            {
+                this.documentMap1.Size = SizeExt.Mult(this.fastColoredTextBox1.Size, DocumentMapSize);
+                this.documentMap1.Location = new Point(this.fastColoredTextBox1.Size.Width - this.documentMap1.Size.Width - System.Windows.Forms.SystemInformation.VerticalScrollBarWidth, ruler1.Height);
+            }
+            else
+            {
+                this.documentMap1.Size = SizeExt.Mult(this.fastColoredTextBox1.Size, DocumentMapSize);
+                this.documentMap1.Location = new Point(this.fastColoredTextBox1.Size.Width - this.documentMap1.Size.Width - System.Windows.Forms.SystemInformation.VerticalScrollBarWidth, 0);
+            }
+        }
+
+        private void DocMapTextBox_ControlRemoved(object sender, ControlEventArgs e)
+        {
+            if (e.Control is FastColoredTextBox)
+            {
+                Console.WriteLine("Run");
+                this.fastColoredTextBox1.CloseBindingFile();
+                this.fastColoredTextBox1.Dispose();
+            }
         }
     }
+
 }
