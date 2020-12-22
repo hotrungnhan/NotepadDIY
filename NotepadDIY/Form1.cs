@@ -19,10 +19,24 @@ namespace NotepadDIY
     {
         private string path = "";
         FATabStrip CurrentFatrip;
+
         public Form1()
         {
             InitializeComponent();
+            LoadXMLScript.LoadFile();
+            foreach (string entry in LoadXMLScript.ScriptPathDict.Keys)
+            {
+                var newitem = new ToolStripMenuItem();
+                newitem.Text = entry;
+                this.languageToolStripMenuItem.DropDownItems.Add(newitem);
+            }
 
+
+        }
+        private DocMapTextBox getCurrentDocMapBox()
+        {
+            var docMapBox = this.faTabTripMaster.SelectedItem.Controls.Find("DocMapTextBox", false).FirstOrDefault() as DocMapTextBox;
+            return docMapBox;
         }
         private void folderView_BeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
@@ -108,17 +122,23 @@ namespace NotepadDIY
                 if (folder.ShowDialog() == DialogResult.OK)
                 {
                     path = folder.SelectedPath;
+                    folderView.Nodes.Clear();
+                    TreeNode node = new TreeNode(path, 1, 1);
+                    node.Nodes.Add("...");
+                    node.Tag = path;
+                    folderView.Nodes.Add(node);
                 }
             }
-            folderView.Nodes.Clear();
-            TreeNode node = new TreeNode(path, 1, 1);
-            node.Nodes.Add("...");
-            node.Tag = path;
-            folderView.Nodes.Add(node);
+
+
         }
         private void closeTabToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var Select = this.faTabTripMaster.SelectedItem;
             this.faTabTripMaster.RemoveTab(this.faTabTripMaster.SelectedItem);
+            var docMapBox = Select.Controls.Find("DocMapTextBox", true).First() as DocMapTextBox;
+            docMapBox.Controls.Clear();
+            Select.Dispose();
         }
 
         private void newToolStripButton_Click(object sender, EventArgs e)
@@ -130,11 +150,13 @@ namespace NotepadDIY
             newtab.Controls.Add(textbox);
             textbox.TextBox.TextChanged += this.textboxUpdateInfo_TextChange;
             this.faTabTripMaster.AddTab(newtab);
+            this.faTabTripMaster.SelectedItem = newtab;
         }
 
         private void copyToolStripButton_Click(object sender, EventArgs e)
         {
-            var docMapBox = this.faTabTripMaster.SelectedItem.Controls.Find("DocMapTextBox", true).First() as DocMapTextBox;
+            var docMapBox = getCurrentDocMapBox();
+            if (docMapBox == null) return;
             try
             {
                 docMapBox.TextBox.Copy();
@@ -143,30 +165,35 @@ namespace NotepadDIY
         }
         private void pasteToolStripButton_Click(object sender, EventArgs e)
         {
-            var docMapBox = this.faTabTripMaster.SelectedItem.Controls.Find("DocMapTextBox", true).First() as DocMapTextBox;
+            var docMapBox = getCurrentDocMapBox();
+            if (docMapBox == null) return;
             docMapBox.TextBox.Paste();
         }
 
         private void redoToolStripButton_Click(object sender, EventArgs e)
         {
-            var docMapBox = this.faTabTripMaster.SelectedItem.Controls.Find("DocMapTextBox", true).First() as DocMapTextBox;
+            var docMapBox = getCurrentDocMapBox();
+            if (docMapBox == null) return;
             docMapBox.TextBox.Redo();
         }
         private void undoToolStripButton_Click(object sender, EventArgs e)
         {
-            var docMapBox = this.faTabTripMaster.SelectedItem.Controls.Find("DocMapTextBox", true).First() as DocMapTextBox;
+            var docMapBox = getCurrentDocMapBox();
+            if (docMapBox == null) return;
             docMapBox.TextBox.Undo();
         }
 
         private void cutToolStripButton_Click(object sender, EventArgs e)
         {
-            var docMapBox = this.faTabTripMaster.SelectedItem.Controls.Find("DocMapTextBox", true).First() as DocMapTextBox;
+            var docMapBox = getCurrentDocMapBox();
+            if (docMapBox == null) return;
             docMapBox.TextBox.Cut();
         }
 
         private void faTabTripMaster_TabStripItemSelectionChanged(TabStripItemChangedEventArgs e)
         {
-            var docMapBox = this.faTabTripMaster.SelectedItem.Controls.Find("DocMapTextBox", true).First() as DocMapTextBox;
+            var docMapBox = getCurrentDocMapBox();
+            if (docMapBox == null) return;
             var ftcb = docMapBox.TextBox;
             this.currentLineCountStatus.Text = "line :" + ftcb.LinesCount.ToString();
             this.currentLanguageStatus.Text = docMapBox.TextBox.Language.ToString();
@@ -178,18 +205,14 @@ namespace NotepadDIY
             Console.WriteLine("tabControl title");
         }
 
-        private void DocMapTextBox_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void faTabTripMaster_Enter(object sender, EventArgs e)
         {
             this.CurrentFatrip = sender as FATabStrip;
         }
         private void textboxUpdateInfo_TextChange(object sender, TextChangedEventArgs e)
         {
-            var docMapBox = this.faTabTripMaster.SelectedItem.Controls.Find("DocMapTextBox", true).First() as DocMapTextBox;
+            var docMapBox = getCurrentDocMapBox();
+            if (docMapBox == null) return;
             var ftcb = docMapBox.TextBox;
             this.currentLineCountStatus.Text = "line :" + ftcb.LinesCount.ToString();
         }
@@ -205,24 +228,11 @@ namespace NotepadDIY
                         item.Checked = false;
                     });
                 // set tab Lang item;
-                var docMapBox = this.faTabTripMaster.SelectedItem.Controls.Find("DocMapTextBox", true).First() as DocMapTextBox;
+                var docMapBox = getCurrentDocMapBox();
+                if (docMapBox == null) return;
                 var fctb = docMapBox.TextBox;
-                switch (currentItem.Text)
-                {
-                    //For example, we will highlight the syntax of C# manually, although could use built-in highlighter
-                    case "Plain":
-                        fctb.Language = Language.Custom;
-                        break;
-                    case "CSharp": fctb.Language = Language.CSharp; break;
-                    case "VB": fctb.Language = Language.VB; break;
-                    case "HTML": fctb.Language = Language.HTML; break;
-                    case "XML": fctb.Language = Language.XML; break;
-                    case "SQL": fctb.Language = Language.SQL; break;
-                    case "PHP": fctb.Language = Language.PHP; break;
-                    case "JS": fctb.Language = Language.JS; break;
-                    case "Lua": fctb.Language = Language.Lua; break;
-                    case "JSON": fctb.Language = Language.JSON; break;
-                }
+                fctb.Language = LoadXMLScript.getBuiltInLanguage(currentItem.Text);
+
                 //Check the current items
                 currentItem.Checked = true;
                 fctb.OnSyntaxHighlight(new TextChangedEventArgs(fctb.Range));
@@ -258,25 +268,52 @@ namespace NotepadDIY
 
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var docMapBox = this.faTabTripMaster.SelectedItem.Controls.Find("DocMapTextBox", true).First() as DocMapTextBox;
+            var docMapBox = getCurrentDocMapBox();
+            if (docMapBox == null) return;
             docMapBox.TextBox.SelectAll();
         }
 
         private void findToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var docMapBox = this.faTabTripMaster.SelectedItem.Controls.Find("DocMapTextBox", true).First() as DocMapTextBox;
+            var docMapBox = getCurrentDocMapBox();
+            if (docMapBox == null) return;
             docMapBox.TextBox.ShowFindDialog();
         }
 
         private void replaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var docMapBox = this.faTabTripMaster.SelectedItem.Controls.Find("DocMapTextBox", true).First() as DocMapTextBox;
+            var docMapBox = getCurrentDocMapBox();
+            if (docMapBox == null) return;
             docMapBox.TextBox.ShowReplaceDialog();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void folderView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var a = new ContextMenuStrip();
+                a.Items.Add("notthinghere", null);
+                a.Show(folderView, e.X, e.Y);
+            }
+        }
+
+        private void openFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var opendialog = new OpenFileDialog();
+            if (opendialog.ShowDialog() == DialogResult.OK)
+            {
+                newToolStripButton.PerformClick();
+                var docMapBox = getCurrentDocMapBox();
+                if (docMapBox == null) return;
+                docMapBox.LoadFile(opendialog.FileName);
+                this.faTabTripMaster.SelectedItem.Title = Path.GetFileName(opendialog.FileName);
+            }
+        
         }
     }
 }
