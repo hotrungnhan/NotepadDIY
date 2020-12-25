@@ -131,6 +131,31 @@ namespace NotepadDIY.Components
                 is_save = false;
             }
         }
+
+        private void cutToolStripMenu_Click(object sender, EventArgs e)
+        {
+            this.fastColoredTextBox1.Cut();
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.fastColoredTextBox1.Copy();
+        }
+
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.fastColoredTextBox1.Paste();
+        }
+
+        private void findToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.fastColoredTextBox1.ShowFindDialog();
+        }
+
+        private void replaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.fastColoredTextBox1.ShowReplaceDialog();
+        }
     }
 
 }

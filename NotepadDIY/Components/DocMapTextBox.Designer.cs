@@ -32,13 +32,17 @@ namespace NotepadDIY.Components
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DocMapTextBox));
             this.fastColoredTextBox1 = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.sssToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rightClickMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cutToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.findToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.replaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.documentMap1 = new FastColoredTextBoxNS.DocumentMap();
             this.ruler1 = new FastColoredTextBoxNS.Ruler();
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBox1)).BeginInit();
-            this.contextMenuStrip1.SuspendLayout();
+            this.rightClickMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // fastColoredTextBox1
@@ -61,10 +65,11 @@ namespace NotepadDIY.Components
             this.fastColoredTextBox1.BookmarkColor = System.Drawing.Color.Purple;
             this.fastColoredTextBox1.CharHeight = 18;
             this.fastColoredTextBox1.CharWidth = 10;
-            this.fastColoredTextBox1.ContextMenuStrip = this.contextMenuStrip1;
+            this.fastColoredTextBox1.ContextMenuStrip = this.rightClickMenuStrip;
             this.fastColoredTextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.fastColoredTextBox1.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.fastColoredTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fastColoredTextBox1.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.fastColoredTextBox1.IsReplaceMode = false;
             this.fastColoredTextBox1.Location = new System.Drawing.Point(0, 24);
             this.fastColoredTextBox1.Name = "fastColoredTextBox1";
@@ -77,26 +82,58 @@ namespace NotepadDIY.Components
             this.fastColoredTextBox1.Zoom = 100;
             this.fastColoredTextBox1.TextChanging += new System.EventHandler<FastColoredTextBoxNS.TextChangingEventArgs>(this.fastColoredTextBox1_TextChanging);
             // 
-            // contextMenuStrip1
+            // rightClickMenuStrip
             // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.sssToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(212, 52);
+            this.rightClickMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.rightClickMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cutToolStripMenu,
+            this.copyToolStripMenuItem,
+            this.pasteToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.findToolStripMenuItem,
+            this.replaceToolStripMenuItem});
+            this.rightClickMenuStrip.Name = "contextMenuStrip1";
+            this.rightClickMenuStrip.Size = new System.Drawing.Size(132, 130);
             // 
-            // toolStripMenuItem1
+            // cutToolStripMenu
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(211, 24);
-            this.toolStripMenuItem1.Text = "toolStripMenuItem1";
+            this.cutToolStripMenu.Name = "cutToolStripMenu";
+            this.cutToolStripMenu.Size = new System.Drawing.Size(131, 24);
+            this.cutToolStripMenu.Text = "&Cut";
+            this.cutToolStripMenu.Click += new System.EventHandler(this.cutToolStripMenu_Click);
             // 
-            // sssToolStripMenuItem
+            // copyToolStripMenuItem
             // 
-            this.sssToolStripMenuItem.Name = "sssToolStripMenuItem";
-            this.sssToolStripMenuItem.Size = new System.Drawing.Size(211, 24);
-            this.sssToolStripMenuItem.Text = "sss";
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(131, 24);
+            this.copyToolStripMenuItem.Text = "C&opy";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            // 
+            // pasteToolStripMenuItem
+            // 
+            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(131, 24);
+            this.pasteToolStripMenuItem.Text = "&Paste";
+            this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(128, 6);
+            // 
+            // findToolStripMenuItem
+            // 
+            this.findToolStripMenuItem.Name = "findToolStripMenuItem";
+            this.findToolStripMenuItem.Size = new System.Drawing.Size(131, 24);
+            this.findToolStripMenuItem.Text = "Find";
+            this.findToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem_Click);
+            // 
+            // replaceToolStripMenuItem
+            // 
+            this.replaceToolStripMenuItem.Name = "replaceToolStripMenuItem";
+            this.replaceToolStripMenuItem.Size = new System.Drawing.Size(131, 24);
+            this.replaceToolStripMenuItem.Text = "Replace";
+            this.replaceToolStripMenuItem.Click += new System.EventHandler(this.replaceToolStripMenuItem_Click);
             // 
             // documentMap1
             // 
@@ -133,7 +170,7 @@ namespace NotepadDIY.Components
             this.ControlRemoved += new System.Windows.Forms.ControlEventHandler(this.DocMapTextBox_ControlRemoved);
             this.Resize += new System.EventHandler(this.DocMapTextBox_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.fastColoredTextBox1)).EndInit();
-            this.contextMenuStrip1.ResumeLayout(false);
+            this.rightClickMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -143,8 +180,12 @@ namespace NotepadDIY.Components
         private FastColoredTextBoxNS.FastColoredTextBox fastColoredTextBox1;
         private FastColoredTextBoxNS.DocumentMap documentMap1;
         private FastColoredTextBoxNS.Ruler ruler1;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem sssToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip rightClickMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem cutToolStripMenu;
+        private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem findToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem replaceToolStripMenuItem;
     }
 }
