@@ -59,6 +59,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\DebugControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Components\DebugControl.Designer.cs">
+      <DependentUpon>DebugControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Components\DocMapTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
