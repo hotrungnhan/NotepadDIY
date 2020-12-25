@@ -197,6 +197,7 @@ namespace NotepadDIY
             var ftcb = docMapBox.TextBox;
             this.currentLineCountStatus.Text = "line :" + ftcb.LinesCount.ToString();
             this.currentLanguageStatus.Text = docMapBox.TextBox.Language.ToString();
+            this.currentSaveLocationtoolStripStatus.Text = docMapBox.FilePath == "" ? "Never Save Yet" : docMapBox.FilePath;
         }
 
         private void faTabTripMaster_Click(object sender, EventArgs e)
@@ -312,8 +313,24 @@ namespace NotepadDIY
                 if (docMapBox == null) return;
                 docMapBox.LoadFile(opendialog.FileName);
                 this.faTabTripMaster.SelectedItem.Title = Path.GetFileName(opendialog.FileName);
+                this.currentSaveLocationtoolStripStatus.Text = docMapBox.FilePath == "" ? "Never Save Yet" : docMapBox.FilePath;
             }
-        
+        }
+
+        private void saveToolStripButton_Click(object sender, EventArgs e)
+        {
+            var docMapBox = getCurrentDocMapBox();
+            if (docMapBox == null) return;
+            docMapBox.SaveFile();
+            this.currentSaveLocationtoolStripStatus.Text = docMapBox.FilePath == "" ? "Never Save Yet" : docMapBox.FilePath;
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var docMapBox = getCurrentDocMapBox();
+            if (docMapBox == null) return;
+            docMapBox.SaveAsFile();
+            this.currentSaveLocationtoolStripStatus.Text = docMapBox.FilePath == "" ? "Never Save Yet" : docMapBox.FilePath;
         }
     }
 }

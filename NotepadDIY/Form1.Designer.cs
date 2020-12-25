@@ -58,9 +58,6 @@ namespace NotepadDIY
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.printPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -106,10 +103,10 @@ namespace NotepadDIY
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.faTabTripMaster = new FarsiLibrary.Win.FATabStrip();
             this.faTabStripItem1 = new FarsiLibrary.Win.FATabStripItem();
-            this.DocMapTextBox = new NotepadDIY.Components.DocMapTextBox();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.splitToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.DocMapTextBox = new NotepadDIY.Components.DocMapTextBox();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -211,6 +208,7 @@ namespace NotepadDIY
             this.saveToolStripButton.Name = "saveToolStripButton";
             this.saveToolStripButton.Size = new System.Drawing.Size(29, 24);
             this.saveToolStripButton.Text = "&Save";
+            this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
             // 
             // toolStripSeparator
             // 
@@ -321,9 +319,6 @@ namespace NotepadDIY
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
             this.toolStripSeparator3,
-            this.printToolStripMenuItem,
-            this.printPreviewToolStripMenuItem,
-            this.toolStripSeparator4,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
@@ -377,33 +372,12 @@ namespace NotepadDIY
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
             this.saveAsToolStripMenuItem.Text = "Save &As";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(243, 6);
-            // 
-            // printToolStripMenuItem
-            // 
-            this.printToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("printToolStripMenuItem.Image")));
-            this.printToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
-            this.printToolStripMenuItem.Text = "&Print";
-            // 
-            // printPreviewToolStripMenuItem
-            // 
-            this.printPreviewToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("printPreviewToolStripMenuItem.Image")));
-            this.printPreviewToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
-            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(246, 26);
-            this.printPreviewToolStripMenuItem.Text = "Print Pre&view";
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(243, 6);
             // 
             // exitToolStripMenuItem
             // 
@@ -797,19 +771,6 @@ namespace NotepadDIY
             this.faTabStripItem1.TabIndex = 0;
             this.faTabStripItem1.Title = "Untitled-0";
             // 
-            // DocMapTextBox
-            // 
-            this.DocMapTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DocMapTextBox.DocumentMapSize = 0.2D;
-            this.DocMapTextBox.Location = new System.Drawing.Point(0, 0);
-            this.DocMapTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.DocMapTextBox.Name = "DocMapTextBox";
-            this.DocMapTextBox.TextBox.TextChanged += textboxUpdateInfo_TextChange;
-            this.DocMapTextBox.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
-            this.DocMapTextBox.RulerEnable = false;
-            this.DocMapTextBox.Size = new System.Drawing.Size(1391, 717);
-            this.DocMapTextBox.TabIndex = 0;
-            // 
             // toolStrip2
             // 
             this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
@@ -840,6 +801,18 @@ namespace NotepadDIY
             this.toolStripLabel1.Name = "toolStripLabel1";
             this.toolStripLabel1.Size = new System.Drawing.Size(101, 24);
             this.toolStripLabel1.Text = "FileWorkPlace";
+            // 
+            // DocMapTextBox
+            // 
+            this.DocMapTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DocMapTextBox.DocumentMapSize = 0.2D;
+            this.DocMapTextBox.Location = new System.Drawing.Point(0, 0);
+            this.DocMapTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.DocMapTextBox.Name = "DocMapTextBox";
+            this.DocMapTextBox.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.DocMapTextBox.RulerEnable = false;
+            this.DocMapTextBox.Size = new System.Drawing.Size(1391, 717);
+            this.DocMapTextBox.TabIndex = 0;
             // 
             // Form1
             // 
@@ -902,9 +875,6 @@ namespace NotepadDIY
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem printPreviewToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
