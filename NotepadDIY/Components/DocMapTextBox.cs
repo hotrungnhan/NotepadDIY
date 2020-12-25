@@ -106,6 +106,10 @@ namespace NotepadDIY.Components
                 is_change = true;
             }
         }
+        public string getFastText()
+        {
+            return fastColoredTextBox1.Text;
+        }
     }
 
 }

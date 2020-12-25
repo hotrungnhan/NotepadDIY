@@ -89,6 +89,7 @@ namespace NotepadDIY
             this.languageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.plaintToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.jSONToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.luaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -283,7 +284,7 @@ namespace NotepadDIY
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(109, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(177, 6);
             // 
             // openFileToolStripMenuItem
             // 
@@ -626,28 +627,37 @@ namespace NotepadDIY
             this.plaintToolStripMenuItem.Checked = true;
             this.plaintToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.plaintToolStripMenuItem.Name = "plaintToolStripMenuItem";
-            this.plaintToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.plaintToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.plaintToolStripMenuItem.Text = "Plain";
             this.plaintToolStripMenuItem.Click += new System.EventHandler(this.languageMenu_Click);
             // 
             // cToolStripMenuItem
             // 
+            this.cToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.runToolStripMenuItem2});
             this.cToolStripMenuItem.Name = "cToolStripMenuItem";
-            this.cToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.cToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cToolStripMenuItem.Text = "CSharp";
             this.cToolStripMenuItem.Click += new System.EventHandler(this.languageMenu_Click);
+            // 
+            // runToolStripMenuItem2
+            // 
+            this.runToolStripMenuItem2.Name = "runToolStripMenuItem2";
+            this.runToolStripMenuItem2.Size = new System.Drawing.Size(95, 22);
+            this.runToolStripMenuItem2.Text = "Run";
+            this.runToolStripMenuItem2.Click += new System.EventHandler(this.runCS_Click);
             // 
             // jSONToolStripMenuItem
             // 
             this.jSONToolStripMenuItem.Name = "jSONToolStripMenuItem";
-            this.jSONToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.jSONToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.jSONToolStripMenuItem.Text = "JSON";
             this.jSONToolStripMenuItem.Click += new System.EventHandler(this.languageMenu_Click);
             // 
             // luaToolStripMenuItem
             // 
             this.luaToolStripMenuItem.Name = "luaToolStripMenuItem";
-            this.luaToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.luaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.luaToolStripMenuItem.Text = "Lua";
             this.luaToolStripMenuItem.Click += new System.EventHandler(this.languageMenu_Click);
             // 
@@ -656,7 +666,7 @@ namespace NotepadDIY
             this.jSToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.runToolStripMenuItem});
             this.jSToolStripMenuItem.Name = "jSToolStripMenuItem";
-            this.jSToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.jSToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.jSToolStripMenuItem.Text = "JS";
             this.jSToolStripMenuItem.Click += new System.EventHandler(this.languageMenu_Click);
             // 
@@ -669,28 +679,28 @@ namespace NotepadDIY
             // pHpToolStripMenuItem
             // 
             this.pHpToolStripMenuItem.Name = "pHpToolStripMenuItem";
-            this.pHpToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.pHpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.pHpToolStripMenuItem.Text = "PHP";
             this.pHpToolStripMenuItem.Click += new System.EventHandler(this.languageMenu_Click);
             // 
             // vBToolStripMenuItem
             // 
             this.vBToolStripMenuItem.Name = "vBToolStripMenuItem";
-            this.vBToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.vBToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.vBToolStripMenuItem.Text = "VB";
             this.vBToolStripMenuItem.Click += new System.EventHandler(this.languageMenu_Click);
             // 
             // hTMLToolStripMenuItem
             // 
             this.hTMLToolStripMenuItem.Name = "hTMLToolStripMenuItem";
-            this.hTMLToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.hTMLToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.hTMLToolStripMenuItem.Text = "HTML";
             this.hTMLToolStripMenuItem.Click += new System.EventHandler(this.languageMenu_Click);
             // 
             // xMLToolStripMenuItem
             // 
             this.xMLToolStripMenuItem.Name = "xMLToolStripMenuItem";
-            this.xMLToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.xMLToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.xMLToolStripMenuItem.Text = "XML";
             this.xMLToolStripMenuItem.Click += new System.EventHandler(this.languageMenu_Click);
             // 
@@ -699,14 +709,15 @@ namespace NotepadDIY
             this.cToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.runToolStripMenuItem1});
             this.cToolStripMenuItem1.Name = "cToolStripMenuItem1";
-            this.cToolStripMenuItem1.Size = new System.Drawing.Size(112, 22);
+            this.cToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.cToolStripMenuItem1.Text = "C/C++";
             // 
             // runToolStripMenuItem1
             // 
             this.runToolStripMenuItem1.Name = "runToolStripMenuItem1";
-            this.runToolStripMenuItem1.Size = new System.Drawing.Size(95, 22);
+            this.runToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.runToolStripMenuItem1.Text = "Run";
+            this.runToolStripMenuItem1.Click += new System.EventHandler(this.runCPP_Click);
             // 
             // splitContainer1
             // 
@@ -811,7 +822,7 @@ namespace NotepadDIY
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.debugControl1);
-            this.splitContainer3.Size = new System.Drawing.Size(838, 510);
+            this.splitContainer3.Size = new System.Drawing.Size(847, 510);
             this.splitContainer3.SplitterDistance = 363;
             this.splitContainer3.SplitterWidth = 1;
             this.splitContainer3.TabIndex = 40;
@@ -827,7 +838,7 @@ namespace NotepadDIY
             // 
             this.splitContainer2.Panel1.Controls.Add(this.faTabTripMaster);
             this.splitContainer2.Panel2Collapsed = true;
-            this.splitContainer2.Size = new System.Drawing.Size(838, 363);
+            this.splitContainer2.Size = new System.Drawing.Size(847, 363);
             this.splitContainer2.SplitterWidth = 1;
             this.splitContainer2.TabIndex = 1;
             // 
@@ -840,7 +851,7 @@ namespace NotepadDIY
             this.faTabTripMaster.Location = new System.Drawing.Point(0, 0);
             this.faTabTripMaster.Name = "faTabTripMaster";
             this.faTabTripMaster.SelectedItem = this.faTabStripItem1;
-            this.faTabTripMaster.Size = new System.Drawing.Size(838, 363);
+            this.faTabTripMaster.Size = new System.Drawing.Size(847, 363);
             this.faTabTripMaster.TabIndex = 0;
             this.faTabTripMaster.Text = "faTabStrip1";
             this.faTabTripMaster.TabStripItemSelectionChanged += new FarsiLibrary.Win.TabStripItemChangedHandler(this.faTabTripMaster_TabStripItemSelectionChanged);
@@ -853,7 +864,7 @@ namespace NotepadDIY
             this.faTabStripItem1.IsDrawn = true;
             this.faTabStripItem1.Name = "faTabStripItem1";
             this.faTabStripItem1.Selected = true;
-            this.faTabStripItem1.Size = new System.Drawing.Size(836, 342);
+            this.faTabStripItem1.Size = new System.Drawing.Size(845, 342);
             this.faTabStripItem1.TabIndex = 0;
             this.faTabStripItem1.Title = "Untitled-0";
             // 
@@ -866,7 +877,7 @@ namespace NotepadDIY
             this.DocMapTextBox.Name = "DocMapTextBox";
             this.DocMapTextBox.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
             this.DocMapTextBox.RulerEnable = false;
-            this.DocMapTextBox.Size = new System.Drawing.Size(836, 342);
+            this.DocMapTextBox.Size = new System.Drawing.Size(845, 342);
             this.DocMapTextBox.TabIndex = 0;
             // 
             // debugControl1
@@ -874,7 +885,7 @@ namespace NotepadDIY
             this.debugControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.debugControl1.Location = new System.Drawing.Point(0, 0);
             this.debugControl1.Name = "debugControl1";
-            this.debugControl1.Size = new System.Drawing.Size(838, 146);
+            this.debugControl1.Size = new System.Drawing.Size(847, 146);
             this.debugControl1.TabIndex = 0;
             // 
             // Form1
@@ -1003,6 +1014,7 @@ namespace NotepadDIY
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private Components.DebugControl debugControl1;
+        private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem2;
     }
 }
 

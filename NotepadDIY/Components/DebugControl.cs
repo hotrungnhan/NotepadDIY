@@ -17,29 +17,35 @@ namespace NotepadDIY.Components
 {
 
     public partial class DebugControl : UserControl
-    {
-        private string absolutepath;
-        private string cfilerelativepath;
-
-        private string cppcompilerpath;
-
+    {    
+                
+        private string currentfilepath;
+        private string currentfilename;
+        
         public DebugControl()
         {
-            //Directory of /bin/debug
-            string debugDirectory = Environment.CurrentDirectory;
-            //Directory of NotepadDIY
-            string projectDirectory = Directory.GetParent(debugDirectory).Parent.Parent.FullName;
-
-            cppcompilerpath = projectDirectory + @"\NotepadDIY\NotepadDIY\MingW\";
-
-            absolutepath = projectDirectory + @"\NotepadDIY\NotepadDIY\Outputs\";
-
-            cfilerelativepath = getRelativePath(absolutepath + "CPPTextCode.c", absolutepath);
-
-
+            
+            
+            setUpPath();
 
             InitializeComponent();
 
+        }
+        public void setUpPath()
+        {
+            currentfilename = "NewCode";
+            currentfilepath = Path.GetTempPath() + currentfilename + @"\";
+            
+            //currentfilepath = XXXX;
+        }
+        public void setUpPath(string currentname)
+        {
+            currentfilepath = Path.GetTempPath() + currentfilename + @"\";
+        }
+        public void setUpPath(string currentpath, string currentname)
+        {
+            currentfilepath = currentpath;
+            currentfilename = currentname;
         }
 
         public string getRelativePath(string filePath, string referencePath)
@@ -48,21 +54,34 @@ namespace NotepadDIY.Components
             var referenceUri = new Uri(referencePath);
             return Uri.UnescapeDataString(referenceUri.MakeRelativeUri(fileUri).ToString()).Replace('/', Path.DirectorySeparatorChar);
         }
+        
         public void compileRunCSharp(string inputCodeText)
         {
             errorTextBox.Text = "";
 
             CSharpCodeProvider codeProvider = new CSharpCodeProvider();
             ICodeCompiler icc = codeProvider.CreateCompiler();
-            string Output = "ForCSharp.exe";
 
+            
+            Directory.CreateDirectory(currentfilepath);
 
+            if (File.Exists(currentfilepath + currentfilename + @".cs"))
+                File.Delete(currentfilepath + currentfilename + @".cs");
 
-            System.CodeDom.Compiler.CompilerParameters parameters = new CompilerParameters();
+            using (FileStream fs = File.Create(currentfilepath + currentfilename + @".cs"))
+            {
+                byte[] codeText = new UTF8Encoding(true).GetBytes(inputCodeText);
+                fs.Write(codeText, 0, codeText.Length);
+            }
 
+            string Output = currentfilename + ".exe";                     
+
+            System.CodeDom.Compiler.CompilerParameters parameters = new CompilerParameters();            
             parameters.GenerateExecutable = true;
-            parameters.OutputAssembly = Output;
-
+            parameters.GenerateInMemory = false;
+            parameters.OutputAssembly = currentfilepath + Output;
+            //parameters.CompilerOptions = currentfilepath + Output;   
+                        
             CompilerResults results = icc.CompileAssemblyFromSource(parameters, inputCodeText);
 
             if (results.Errors.Count > 0)
@@ -83,33 +102,35 @@ namespace NotepadDIY.Components
                 errorTextBox.ForeColor = Color.Blue;
                 errorTextBox.Text = "Success!";
 
-                //Process process = new Process();
-                //process.StartInfo.WorkingDirectory = absolutepath;
-                //process.StartInfo.FileName = Output;
-                Process.Start(Output);
+                Process.Start(currentfilepath + Output);                   
             }
         }
         public void compileRunCPP(string inputCodeText)
         {
-            errorTextBox.Text += absolutepath + " " + cfilerelativepath + " " + cppcompilerpath;
+            
             string results = "";
+
+            Directory.CreateDirectory(currentfilepath);
+
+           
 
             try
             {
-                if (File.Exists(@"CPPTextCode.c"))
-                    File.Delete(@"CPPTextCode.c");
+                if (File.Exists(currentfilepath + currentfilename + @".c"))
+                    File.Delete(currentfilepath + currentfilename + @".c");
 
-                using (FileStream fs = File.Create(@"CPPTextCode.c"))
+                using (FileStream fs = File.Create(currentfilepath + currentfilename + @".c"))
                 {
                     byte[] codeText = new UTF8Encoding(true).GetBytes(inputCodeText);
                     fs.Write(codeText, 0, codeText.Length);
                 }
 
+                
 
                 Process process = new Process();
                 //process.StartInfo.WorkingDirectory = cppcompilerpath;
                 process.StartInfo.FileName = @"g++.exe";
-                process.StartInfo.Arguments = @"-o CPPRun CPPTextCode.c";
+                process.StartInfo.Arguments = @"-o " + currentfilepath + currentfilename + @" " + currentfilepath + currentfilename + @".c";
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.RedirectStandardInput = true;
                 process.StartInfo.CreateNoWindow = true;
@@ -133,7 +154,7 @@ namespace NotepadDIY.Components
                     errorTextBox.Text = "Success";
 
 
-                    Process.Start("CPPRun").WaitForExit();
+                    Process.Start(currentfilepath + currentfilename + ".exe").WaitForExit();
                 }
                 else
                 {

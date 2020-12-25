@@ -315,5 +315,13 @@ namespace NotepadDIY
             }
         
         }
+        private void runCS_Click(object sender, EventArgs e)
+        {
+            debugControl1.compileRunCSharp(DocMapTextBox.getFastText());
+        }
+        private void runCPP_Click(object sender, EventArgs e)
+        {
+            debugControl1.compileRunCPP(DocMapTextBox.getFastText());
+        }
     }
 }
