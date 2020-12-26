@@ -59,6 +59,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\AddItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Components\AddItem.Designer.cs">
+      <DependentUpon>AddItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Components\DocMapTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -75,6 +81,9 @@
     <Compile Include="Components\LoadXMLScript.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Components\AddItem.resx">
+      <DependentUpon>AddItem.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Components\DocMapTextBox.resx">
       <DependentUpon>DocMapTextBox.cs</DependentUpon>
     </EmbeddedResource>

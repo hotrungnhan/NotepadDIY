@@ -18,8 +18,9 @@ namespace NotepadDIY
     public partial class Form1 : Form
     {
         private string path = "";
+        TreeNode currentNode = null;
         FATabStrip CurrentFatrip;
-
+        List<string> ListCurrentTab = new List<string>();
         public Form1()
         {
             InitializeComponent();
@@ -32,6 +33,14 @@ namespace NotepadDIY
             }
 
 
+        }
+        private bool CheckExist(string name)
+        {
+            if (ListCurrentTab.Contains(name))
+            {
+                return true;
+            }
+            return false;
         }
         private DocMapTextBox getCurrentDocMapBox()
         {
@@ -135,6 +144,10 @@ namespace NotepadDIY
         private void closeTabToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var Select = this.faTabTripMaster.SelectedItem;
+            if (CheckExist(Select.Title))
+            {
+                ListCurrentTab.Remove(Select.Title);
+            }
             this.faTabTripMaster.RemoveTab(this.faTabTripMaster.SelectedItem);
             var docMapBox = Select.Controls.Find("DocMapTextBox", true).First() as DocMapTextBox;
             docMapBox.Controls.Clear();
@@ -295,11 +308,15 @@ namespace NotepadDIY
 
         private void folderView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if (e.Button == MouseButtons.Right)
+            if (e.Button == MouseButtons.Right && e.Node.SelectedImageIndex == 1)
             {
-                var a = new ContextMenuStrip();
-                a.Items.Add("notthinghere", null);
-                a.Show(folderView, e.X, e.Y);
+                contextMS_RightClick_Folder.Show(folderView,e.X,e.Y);
+                currentNode = e.Node;
+            }
+            if (e.Button == MouseButtons.Right && e.Node.SelectedImageIndex == 0)
+            {
+                currentNode = e.Node;
+                contextMS_RightClick_File.Show(folderView, e.X, e.Y);
             }
         }
 
@@ -332,5 +349,111 @@ namespace NotepadDIY
             docMapBox.SaveAsFile();
             this.currentSaveLocationtoolStripStatus.Text = docMapBox.FilePath == "" ? "Never Save Yet" : docMapBox.FilePath;
         }
+        private void contextFolder_AddItem_Click(object sender, EventArgs e)
+        {
+            if (currentNode != null)
+            {
+                using (AddItem add =new AddItem())
+                {
+                    if (add.ShowDialog() == DialogResult.OK)
+                    {
+                        TreeNode node = new TreeNode(add.nameFile, 0, 0);
+                        string pathString = System.IO.Path.Combine(currentNode.Tag.ToString(), add.nameFile);
+                        File.WriteAllText(pathString, "");
+                        node.Tag = pathString;
+                        currentNode.Nodes.Add(node);
+                    }
+                }
+            }
+        }
+
+        private void contextFolder_DeleteItem_Click(object sender, EventArgs e)
+        {
+            if (currentNode != null)
+            {
+                currentNode.Remove();
+            }
+        }
+
+        private void contextfile_OpenItem_Click(object sender, EventArgs e)
+        {
+            if (currentNode != null)
+            {
+                if (CheckExist(currentNode.Text))
+                {
+                    this.faTabTripMaster.SelectedItem = this.faTabTripMaster.Items[ListCurrentTab.Count - 1 - ListCurrentTab.IndexOf(currentNode.Text)];
+                    return;
+                }
+                else
+                {
+                    ListCurrentTab.Add(currentNode.Text);
+                    var newtab = new FarsiLibrary.Win.FATabStripItem();
+                    newtab.Title = currentNode.Text;
+                    var textbox = new DocMapTextBox();
+                    textbox.Dock = DockStyle.Fill;
+                    textbox.TextBox.Text = File.ReadAllText(currentNode.Tag.ToString());
+                    newtab.Controls.Add(textbox);
+                    textbox.TextBox.TextChanged += this.textboxUpdateInfo_TextChange;
+                    this.faTabTripMaster.AddTab(newtab);
+                    this.faTabTripMaster.SelectedItem = this.faTabTripMaster.Items[this.faTabTripMaster.Items.IndexOf(newtab)];
+                }
+            }
+        }
+
+        private void contextfile_DeleteItem_Click(object sender, EventArgs e)
+        {
+            if (currentNode != null)
+            {
+                var Select = this.faTabTripMaster.Items[ListCurrentTab.Count - 1 - ListCurrentTab.IndexOf(currentNode.Text)]; 
+                if (CheckExist(Select.Title))
+                {
+                    ListCurrentTab.Remove(Select.Title);
+                }
+                this.faTabTripMaster.RemoveTab(Select);
+                currentNode.Remove();
+            }
+        }
+
+        private void folderView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left && e.Node.SelectedImageIndex == 0)
+            {
+                currentNode = e.Node;
+                if (CheckExist(currentNode.Text))
+                {
+                    this.faTabTripMaster.SelectedItem = this.faTabTripMaster.Items[ListCurrentTab.Count - 1 - ListCurrentTab.IndexOf(currentNode.Text)];
+                    return;
+                }
+                ListCurrentTab.Add(currentNode.Text);
+                var newtab = new FarsiLibrary.Win.FATabStripItem();
+                newtab.Title = currentNode.Text;
+                var textbox = new DocMapTextBox();
+                textbox.Dock = DockStyle.Fill;
+                textbox.TextBox.Text = File.ReadAllText(currentNode.Tag.ToString());
+                newtab.Controls.Add(textbox);
+                textbox.TextBox.TextChanged += this.textboxUpdateInfo_TextChange;
+                this.faTabTripMaster.AddTab(newtab);
+                this.faTabTripMaster.SelectedItem = this.faTabTripMaster.Items[this.faTabTripMaster.Items.IndexOf(newtab)];
+            }
+        }
+
+        private void contextFolder_AddFolerItem_Click(object sender, EventArgs e)
+        {
+            if (currentNode != null)
+            {
+                using (AddItem add = new AddItem())
+                {
+                    if (add.ShowDialog() == DialogResult.OK)
+                    {
+                        TreeNode node = new TreeNode(add.nameFile, 1, 1);
+                        string pathString = System.IO.Path.Combine(currentNode.Tag.ToString(), add.nameFile);
+                        System.IO.Directory.CreateDirectory(pathString);
+                        node.Tag = pathString;
+                        currentNode.Nodes.Add(node);
+                    }
+                }
+            }
+        }
+
     }
 }

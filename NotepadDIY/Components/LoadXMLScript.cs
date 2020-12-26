@@ -31,6 +31,7 @@ namespace NotepadDIY.Components
         }
         static public bool isBuiltInLanguage(string lang)
         {
+            
             switch (lang)
             {
                 //For example, we will highlight the syntax of C# manually, although could use built-in highlighter
