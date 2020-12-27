@@ -17,10 +17,9 @@ namespace NotepadDIY
 
     public partial class Form1 : Form
     {
-        private string path = "";
-        TreeNode currentNode = null;
+        
         FATabStrip CurrentFatrip;
-        List<string> ListCurrentTab = new List<string>();
+        
         public Form1()
         {
             InitializeComponent();
@@ -65,7 +64,7 @@ namespace NotepadDIY
                         node.Tag = dir;
 
                         // if the directory has sub directories add the place holder
-                        if (di.GetDirectories().Count() > 0)
+                        //if (di.GetDirectories().Count() > 0)
                             node.Nodes.Add(null, "...", 0, 0);
                     }
                     catch (UnauthorizedAccessException)
@@ -85,6 +84,7 @@ namespace NotepadDIY
                     }
                 }
                 string[] filePath = Directory.GetFiles(e.Node.Tag.ToString());
+
                 foreach (string filepath in filePath)
                 {
                     FileInfo file = new FileInfo(filepath);
@@ -144,9 +144,9 @@ namespace NotepadDIY
         private void closeTabToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var Select = this.faTabTripMaster.SelectedItem;
-            if (CheckExist(Select.Title))
+            if (CheckExist(Select.Tag.ToString()))
             {
-                ListCurrentTab.Remove(Select.Title);
+                ListCurrentTab.Remove(Select.Tag.ToString());
             }
             this.faTabTripMaster.RemoveTab(this.faTabTripMaster.SelectedItem);
             var docMapBox = Select.Controls.Find("DocMapTextBox", true).First() as DocMapTextBox;
@@ -349,6 +349,18 @@ namespace NotepadDIY
             docMapBox.SaveAsFile();
             this.currentSaveLocationtoolStripStatus.Text = docMapBox.FilePath == "" ? "Never Save Yet" : docMapBox.FilePath;
         }
+
+
+        #region contextmenustrip
+        private string path = "";
+        TreeNode NodeCutCopy = null;
+        bool isCopyD = false;
+        bool isCutD = false;
+        bool isCopyF = false;
+        bool isCutF = false;
+        private string SourcePath = "";
+        TreeNode currentNode = null;
+        List<string> ListCurrentTab = new List<string>();
         private void contextFolder_AddItem_Click(object sender, EventArgs e)
         {
             if (currentNode != null)
@@ -359,6 +371,11 @@ namespace NotepadDIY
                     {
                         TreeNode node = new TreeNode(add.nameFile, 0, 0);
                         string pathString = System.IO.Path.Combine(currentNode.Tag.ToString(), add.nameFile);
+                        if (System.IO.File.Exists(pathString))
+                        {
+                            MessageBox.Show("File name exists");
+                            return;
+                        }
                         File.WriteAllText(pathString, "");
                         node.Tag = pathString;
                         currentNode.Nodes.Add(node);
@@ -371,6 +388,15 @@ namespace NotepadDIY
         {
             if (currentNode != null)
             {
+                for (int i = 0; i < ListCurrentTab.Count; i++)
+                {
+                    if (ListCurrentTab[i].IndexOf(currentNode.Tag.ToString()) != -1)
+                    {
+                        var Select = this.faTabTripMaster.Items[ListCurrentTab.Count - 1 - i];
+                        this.faTabTripMaster.RemoveTab(Select);
+                        ListCurrentTab.Remove(ListCurrentTab[i]);
+                    }
+                }
                 currentNode.Remove();
             }
         }
@@ -379,16 +405,17 @@ namespace NotepadDIY
         {
             if (currentNode != null)
             {
-                if (CheckExist(currentNode.Text))
+                if (CheckExist(currentNode.Tag.ToString() + " " + currentNode.Text))
                 {
-                    this.faTabTripMaster.SelectedItem = this.faTabTripMaster.Items[ListCurrentTab.Count - 1 - ListCurrentTab.IndexOf(currentNode.Text)];
+                    this.faTabTripMaster.SelectedItem = this.faTabTripMaster.Items[ListCurrentTab.Count - 1 - ListCurrentTab.IndexOf(currentNode.Tag.ToString() +" "+ currentNode.Text)];
                     return;
                 }
                 else
                 {
-                    ListCurrentTab.Add(currentNode.Text);
+                    ListCurrentTab.Add(currentNode.Tag.ToString() + " " + currentNode.Text);
                     var newtab = new FarsiLibrary.Win.FATabStripItem();
                     newtab.Title = currentNode.Text;
+                    newtab.Tag = currentNode.Tag.ToString() + " " + currentNode.Text;
                     var textbox = new DocMapTextBox();
                     textbox.Dock = DockStyle.Fill;
                     textbox.TextBox.Text = File.ReadAllText(currentNode.Tag.ToString());
@@ -404,10 +431,10 @@ namespace NotepadDIY
         {
             if (currentNode != null)
             {
-                var Select = this.faTabTripMaster.Items[ListCurrentTab.Count - 1 - ListCurrentTab.IndexOf(currentNode.Text)]; 
-                if (CheckExist(Select.Title))
+                var Select = this.faTabTripMaster.Items[ListCurrentTab.Count - 1 - ListCurrentTab.IndexOf(currentNode.Tag.ToString() + " " + currentNode.Text)]; 
+                if (CheckExist(currentNode.Tag.ToString() + " " + Select.Title))
                 {
-                    ListCurrentTab.Remove(Select.Title);
+                    ListCurrentTab.Remove(currentNode.Tag.ToString() + " " + Select.Title);
                 }
                 this.faTabTripMaster.RemoveTab(Select);
                 currentNode.Remove();
@@ -419,14 +446,15 @@ namespace NotepadDIY
             if (e.Button == MouseButtons.Left && e.Node.SelectedImageIndex == 0)
             {
                 currentNode = e.Node;
-                if (CheckExist(currentNode.Text))
+                if (CheckExist(currentNode.Tag.ToString() + " " + currentNode.Text))
                 {
-                    this.faTabTripMaster.SelectedItem = this.faTabTripMaster.Items[ListCurrentTab.Count - 1 - ListCurrentTab.IndexOf(currentNode.Text)];
+                    this.faTabTripMaster.SelectedItem = this.faTabTripMaster.Items[ListCurrentTab.Count - 1 - ListCurrentTab.IndexOf(currentNode.Tag.ToString() + " " + currentNode.Text)];
                     return;
                 }
-                ListCurrentTab.Add(currentNode.Text);
+                ListCurrentTab.Add(currentNode.Tag.ToString() + " " + currentNode.Text);
                 var newtab = new FarsiLibrary.Win.FATabStripItem();
                 newtab.Title = currentNode.Text;
+                newtab.Tag = currentNode.Tag.ToString() + " " + currentNode.Text;
                 var textbox = new DocMapTextBox();
                 textbox.Dock = DockStyle.Fill;
                 textbox.TextBox.Text = File.ReadAllText(currentNode.Tag.ToString());
@@ -447,6 +475,11 @@ namespace NotepadDIY
                     {
                         TreeNode node = new TreeNode(add.nameFile, 1, 1);
                         string pathString = System.IO.Path.Combine(currentNode.Tag.ToString(), add.nameFile);
+                        if (System.IO.Directory.Exists(pathString))
+                        {
+                            MessageBox.Show("Folder name exist");
+                            return;
+                        }
                         System.IO.Directory.CreateDirectory(pathString);
                         node.Tag = pathString;
                         currentNode.Nodes.Add(node);
@@ -454,6 +487,150 @@ namespace NotepadDIY
                 }
             }
         }
+        private void contextfolder_CopyItem_Click(object sender, EventArgs e)
+        {
+            if (currentNode != null)
+            {
+                NodeCutCopy = new TreeNode(currentNode.Text,1,1);
+                SourcePath = currentNode.Tag.ToString();
+                isCopyD = true;
+            }
+        }
+        private void contextFolder_CutItem_Click(object sender, EventArgs e)
+        {
+            if (currentNode != null)
+            {
+                NodeCutCopy = new TreeNode(currentNode.Text,1,1);
+                SourcePath = currentNode.Tag.ToString();
+                isCutD = true;
+                currentNode.Remove();
+            }
+        }
+        private void contextFolder_PasteItem_Click(object sender, EventArgs e)
+        {
+            if (currentNode != null && NodeCutCopy != null)
+            {
+                if (isCopyD)
+                {
+                    string dest = Path.Combine(currentNode.Tag.ToString(), NodeCutCopy.Text);
+                    Directory.CreateDirectory(dest);
+                    if (System.IO.Directory.Exists(SourcePath))
+                    {
+                        string[] files = System.IO.Directory.GetFiles(SourcePath);
+
+                        // Copy the files and overwrite destination files if they already exist.
+                        foreach (string s in files)
+                        {
+                            // Use static Path methods to extract only the file name from the path.
+                            string fileName = System.IO.Path.GetFileName(s);
+                            string destfile = System.IO.Path.Combine(dest, fileName);
+                            System.IO.File.Copy(s, destfile, true);
+                        }
+                        NodeCutCopy.Tag = dest;
+                        currentNode.Nodes.Add(NodeCutCopy);
+                        NodeCutCopy = null;
+                        isCopyD = false;
+                        SourcePath = "";
+                    }
+                    else
+                    {
+                        Console.WriteLine("Source path does not exist!");
+                        NodeCutCopy = null;
+                        isCutD = false;
+                        SourcePath = "";
+                    }
+                }
+                if (isCutD)
+                {
+                    string dest = Path.Combine(currentNode.Tag.ToString(), NodeCutCopy.Text);
+                    if (System.IO.Directory.Exists(SourcePath))
+                    {
+                        Directory.Move(SourcePath, dest);
+                        NodeCutCopy.Tag = dest;
+                        currentNode.Nodes.Add(NodeCutCopy);
+                        NodeCutCopy = null;
+                        isCutD= false;
+                        SourcePath = "";
+                    }
+                    else
+                    {
+                        Console.WriteLine("Source path does not exist!");
+                        NodeCutCopy = null;
+                        isCutD = false;
+                        SourcePath = "";
+                    }
+                }
+                if (isCopyF)
+                {
+                    string dest = Path.Combine(currentNode.Tag.ToString(), NodeCutCopy.Text);
+                    if (System.IO.File.Exists(SourcePath))
+                    {
+                        MessageBox.Show("DA VAO DAY");
+                        File.Copy(SourcePath, dest);
+                        NodeCutCopy.Tag = dest;
+                        currentNode.Nodes.Add(NodeCutCopy);
+                        NodeCutCopy = null;
+                        isCopyF = false;
+                        SourcePath = "";
+                    }
+                    else
+                    {
+                        Console.WriteLine("Source path does not exist!");
+                        NodeCutCopy = null;
+                        isCopyF = false;
+                        SourcePath = "";
+                    }
+                }
+                if (isCutF)
+                {
+                    string dest = Path.Combine(currentNode.Tag.ToString(), NodeCutCopy.Text);
+                    if (System.IO.File.Exists(SourcePath))
+                    {
+                        MessageBox.Show("DA VAO DAY");
+                        File.Move(SourcePath, dest);
+                        NodeCutCopy.Tag = dest;
+                        currentNode.Nodes.Add(NodeCutCopy);
+                        NodeCutCopy = null;
+                        isCutF = false;
+                        SourcePath = "";
+                    }
+                    else
+                    {
+                        Console.WriteLine("Source path does not exist!");
+                        NodeCutCopy = null;
+                        isCopyF = false;
+                        SourcePath = "";
+                    }
+                }
+
+            }
+            
+        }
+        private void contextFile_CopyItem_Click(object sender, EventArgs e)
+        {
+            if (currentNode != null)
+            {
+                MessageBox.Show("VAo DAY roi");
+                NodeCutCopy = new TreeNode(currentNode.Text, 0, 0);
+                SourcePath = currentNode.Tag.ToString();
+                isCopyF = true;
+            }
+        }
+
+        private void contextFile_CutItem_Click(object sender, EventArgs e)
+        {
+            if (currentNode != null)
+            {
+                MessageBox.Show("VAo DAY roi");
+                NodeCutCopy = new TreeNode(currentNode.Text, 0, 0);
+                SourcePath = currentNode.Tag.ToString();
+                isCutF = true;
+                currentNode.Remove();
+            }
+        }
+
+        #endregion
+
 
     }
 }

@@ -27,5 +27,6 @@ namespace NotepadDIY.Components.Ext
             news.Height = (int)(s.Height * mul);
             return news;
         }
+        
     }
 }
