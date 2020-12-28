@@ -28,10 +28,9 @@ namespace NotepadDIY
             {
                 var newitem = new ToolStripMenuItem();
                 newitem.Text = entry;
+                newitem.Click += languageMenu_Click;
                 this.languageToolStripMenuItem.DropDownItems.Add(newitem);
             }
-
-
         }
         private DocMapTextBox getCurrentDocMapBox()
         {
@@ -305,15 +304,31 @@ namespace NotepadDIY
 
         private void openFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var opendialog = new OpenFileDialog();
-            if (opendialog.ShowDialog() == DialogResult.OK)
+            newToolStripButton.PerformClick();
+            var docMapBox = getCurrentDocMapBox();
+            if (docMapBox == null) return;
+            docMapBox.OpenFile();
+            if (docMapBox.FilePath == "")
             {
-                newToolStripButton.PerformClick();
-                var docMapBox = getCurrentDocMapBox();
-                if (docMapBox == null) return;
-                docMapBox.LoadFile(opendialog.FileName);
-                this.faTabTripMaster.SelectedItem.Title = Path.GetFileName(opendialog.FileName);
-                this.currentSaveLocationtoolStripStatus.Text = docMapBox.FilePath == "" ? "Never Save Yet" : docMapBox.FilePath;
+                closeTabToolStripMenuItem.PerformClick();
+            }
+            else
+            {
+                this.faTabTripMaster.SelectedItem.Title = Path.GetFileName(docMapBox.FilePath);
+                this.currentSaveLocationtoolStripStatus.Text = docMapBox.FilePath;
+                languageToolStripMenuItem.DropDownItems
+                       .OfType<ToolStripMenuItem>().ToList()
+                       .ForEach(item =>
+                       {
+                           if (LoadXMLScript.getBuiltInLanguage(item.Text) == docMapBox.TextBox.Language)
+                           {
+                               item.Checked = true;
+                           }
+                           else
+                           {
+                               item.Checked = false;
+                           }
+                       });
             }
         }
 
