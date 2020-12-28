@@ -70,7 +70,10 @@ namespace NotepadDIY.Components
             }
             is_change = false;
         }
-
+        public void SaveFile(string path)
+        {
+            this.fastColoredTextBox1.SaveToFile(path, Encoding.Default);
+        }
 
         private void ruler1_VisibleChanged(object sender, EventArgs e)
         {
@@ -106,10 +109,7 @@ namespace NotepadDIY.Components
                 is_change = true;
             }
         }
-        public string getFastText()
-        {
-            return fastColoredTextBox1.Text;
-        }
+        
     }
 
 }

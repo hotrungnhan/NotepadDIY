@@ -139,6 +139,7 @@ namespace NotepadDIY
             var docMapBox = Select.Controls.Find("DocMapTextBox", true).First() as DocMapTextBox;
             docMapBox.Controls.Clear();
             Select.Dispose();
+            path = "";
         }
 
         private void newToolStripButton_Click(object sender, EventArgs e)
@@ -312,16 +313,73 @@ namespace NotepadDIY
                 if (docMapBox == null) return;
                 docMapBox.LoadFile(opendialog.FileName);
                 this.faTabTripMaster.SelectedItem.Title = Path.GetFileName(opendialog.FileName);
+                
+                path = opendialog.FileName;
             }
-        
+
+        }
+        private void saveFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            if ((!String.IsNullOrWhiteSpace(path)) || File.Exists(path))
+            {
+                var docMapBox = getCurrentDocMapBox();
+                docMapBox.TextBox.SaveToFile(path, Encoding.Default);
+                MessageBox.Show("Save Success");
+            }
+            else
+                saveAsFileToolStripMenuItem_Click(sender, e);
+            
+        }
+        private void saveAsProcess(string filepath)
+        {
+            FileInfo fileInfo = new FileInfo(filepath);
+            string newPath = fileInfo.DirectoryName + @"\" + Path.GetFileNameWithoutExtension(fileInfo.Name) + @"\";
+            Directory.CreateDirectory(newPath);
+            path = newPath + fileInfo.Name;
+            var docMapBox = getCurrentDocMapBox();
+            docMapBox.TextBox.SaveToFile(path, Encoding.Default);
+            this.faTabTripMaster.SelectedItem.Title = fileInfo.Name;
+        }
+        private void saveAsFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var saveDialog = new SaveFileDialog();
+            saveDialog.Title = "Save file as...";
+            saveDialog.FileName = "NewCode";
+            if (saveDialog.ShowDialog() == DialogResult.OK)
+            {
+                saveAsProcess(saveDialog.FileName);
+                MessageBox.Show("Save Success");
+            }
+        }
+        private void createTempFile(string filepath)
+        {
+            if (String.IsNullOrWhiteSpace(filepath))
+                filepath = Path.GetTempPath() + "NewCode" ;
+            else
+            {
+                if (!File.Exists(filepath))
+                    filepath = Path.GetTempPath() + Path.GetFileNameWithoutExtension(this.faTabTripMaster.SelectedItem.Title);
+            }
+            if (!File.Exists(filepath))                    
+                saveAsProcess(filepath);
+            
         }
         private void runCS_Click(object sender, EventArgs e)
         {
-            debugControl1.compileRunCSharp(DocMapTextBox.getFastText());
+            createTempFile(path);
+            FileInfo fileInfo = new FileInfo(path);
+            var docMapBox = getCurrentDocMapBox();
+            docMapBox.TextBox.SaveToFile(path, Encoding.Default);
+            debugControl1.compileRunCSharp(docMapBox.TextBox.Text, fileInfo);
         }
         private void runCPP_Click(object sender, EventArgs e)
         {
-            debugControl1.compileRunCPP(DocMapTextBox.getFastText());
+            createTempFile(path);
+            FileInfo fileInfo = new FileInfo(path);
+            var docMapBox = getCurrentDocMapBox();
+            docMapBox.TextBox.SaveToFile(path, Encoding.Default);
+            debugControl1.compileRunCPP(fileInfo);
         }
     }
 }
