@@ -139,7 +139,6 @@ namespace NotepadDIY
             var docMapBox = Select.Controls.Find("DocMapTextBox", true).First() as DocMapTextBox;
             docMapBox.Controls.Clear();
             Select.Dispose();
-            path = "";
         }
 
         private void newToolStripButton_Click(object sender, EventArgs e)
