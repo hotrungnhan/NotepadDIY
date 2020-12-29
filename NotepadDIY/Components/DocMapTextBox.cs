@@ -50,6 +50,16 @@ namespace NotepadDIY.Components
                 this.documentMap1.Location = new Point(this.fastColoredTextBox1.Size.Width - this.documentMap1.Size.Width - SystemInformation.VerticalScrollBarWidth, 0);
             }
         }
+        public void OpenFile()
+        {
+            var opendialog = new OpenFileDialog();
+            if (opendialog.ShowDialog() == DialogResult.OK)
+            {
+                LoadFile(opendialog.FileName);
+                this.fastColoredTextBox1.Language = LoadXMLScript.getLangByExt(Path.GetExtension(opendialog.FileName));
+                fastColoredTextBox1.OnSyntaxHighlight(new TextChangedEventArgs(fastColoredTextBox1.Range));
+            }
+        }
         public void LoadFile(string path)
         {
             if (File.Exists(path))
@@ -89,6 +99,16 @@ namespace NotepadDIY.Components
         public void SaveAsFile()
         {
             var saveDialog = new SaveFileDialog();
+            saveDialog.Filter = "Txt files |*.txt|" +
+                                "Csharp|*.cs|" +
+                                "JavaScript|*.js|" +
+                                "JSON|*.json|" +
+                                "Lua|*.lua|" +
+                                "PHP|*.php|" +
+                                "VB|*.vb|" +
+                                "HTML|*.html|" +
+                                "XML|*.xml|" +
+                                "All files|*.*";
             if (saveDialog.ShowDialog() == DialogResult.OK)
             {
                 this.fastColoredTextBox1.SaveToFile(saveDialog.FileName, Encoding.UTF8);
