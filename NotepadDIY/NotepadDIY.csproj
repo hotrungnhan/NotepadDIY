@@ -65,6 +65,7 @@
     <Compile Include="Components\DebugControl.Designer.cs">
       <DependentUpon>DebugControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Components\DirAndFileExt.cs" />
     <Compile Include="Components\DocMapTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>

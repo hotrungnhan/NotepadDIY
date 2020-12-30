@@ -40,25 +40,21 @@ namespace NotepadDIY
             if (e.Node.Nodes.Count > 0)
             {
                 e.Node.Nodes.Clear();
-                //get the list of sub direcotires
                 string[] dirs = Directory.GetDirectories(e.Node.Tag.ToString());
 
                 foreach (string dir in dirs)
                 {
                     DirectoryInfo di = new DirectoryInfo(dir);
                     TreeNode node = new TreeNode(di.Name, 1, 1);
+
                     try
                     {
-                        //keep the directory's full path in the tag for use later
                         node.Tag = dir;
-
-                        // if the directory has sub directories add the place holder
                         if (di.GetDirectories().Count() > 0)
                             node.Nodes.Add(null, "...", 0, 0);
                     }
                     catch (UnauthorizedAccessException)
                     {
-                        //display a locked folder icon
                         node.ImageIndex = 0;
                         node.SelectedImageIndex = 0;
                     }
@@ -79,13 +75,10 @@ namespace NotepadDIY
                     TreeNode node = new TreeNode(file.Name, 0, 0);
                     try
                     {
-                        //keep the directory's full path in the tag for use later
                         node.Tag = filepath;
-                        // if the directory has sub directories add the place holder
                     }
                     catch (UnauthorizedAccessException)
                     {
-                        //display a locked folder icon
                         node.ImageIndex = 0;
                         node.SelectedImageIndex = 0;
                     }
@@ -99,7 +92,6 @@ namespace NotepadDIY
                         e.Node.Nodes.Add(node);
                     }
                 }
-
             }
         }
 
@@ -124,6 +116,7 @@ namespace NotepadDIY
                     node.Nodes.Add("...");
                     node.Tag = pathFolder;
                     folderView.Nodes.Add(node);
+                    node.Expand();
                 }
             }
 
@@ -140,7 +133,7 @@ namespace NotepadDIY
 
         private void newToolStripButton_Click(object sender, EventArgs e)
         {
-            var newtab = new FarsiLibrary.Win.FATabStripItem();
+            var newtab = new FATabStripItem();
             newtab.Title = Properties.Settings.Default.TAB_TITLE_DEFAULT + "-" + this.faTabTripMaster.Controls.Count;
             var textbox = new DocMapTextBox();
             textbox.Dock = DockStyle.Fill;
@@ -197,11 +190,6 @@ namespace NotepadDIY
             this.currentSaveLocationtoolStripStatus.Text = docMapBox.FilePath == "" ? "Never Save Yet" : docMapBox.FilePath;
         }
 
-        private void faTabTripMaster_Click(object sender, EventArgs e)
-        {
-            // title click
-            Console.WriteLine("tabControl title");
-        }
 
         private void textboxUpdateInfo_TextChange(object sender, TextChangedEventArgs e)
         {
@@ -290,12 +278,69 @@ namespace NotepadDIY
         {
             if (e.Button == MouseButtons.Right)
             {
-                var a = new ContextMenuStrip();
-                a.Items.Add("notthinghere", null);
-                a.Show(folderView, e.X, e.Y);
+                this.folderView.SelectedNode = e.Node;
+                var menuscript = new ContextMenuStrip();
+                menuscript.Tag = e.Node;
+                menuscript.Items.Add("Delete", null);
+                //menuscript.Items.Add("Rename", null);
+                menuscript.ItemClicked += itemclick_folderView_Click;
+                menuscript.Show(folderView, e.X, e.Y);
             }
         }
-
+        private void itemclick_folderView_Click(object sender, ToolStripItemClickedEventArgs e)
+        {
+            var cms = sender as ContextMenuStrip;
+            var node = cms.Tag as TreeNode;
+            var path = node.FullPath;
+            try
+            {
+                if (DirAndFileExt.isDirectory(path))
+                {
+                    //dicrectory
+                    switch (e.ClickedItem.Text)
+                    {
+                        case "Delete":
+                            Directory.Delete(path);
+                            node.Remove();
+                            break;
+                        case "Rename":
+                            if (node != node.FirstNode && !node.IsEditing)
+                            {
+                                node.BeginEdit();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Cant edit folder was open");
+                            }
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (e.ClickedItem.Text)
+                    {
+                        case "Delete":
+                            File.Delete(path);
+                            node.Remove();
+                            break;
+                        case "Rename":
+                            if (node != node.FirstNode && !node.IsEditing)
+                            {
+                                node.BeginEdit();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Cant edit folder was open");
+                            }
+                            break;
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message);
+            }
+        }
         private void openFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             newToolStripButton.PerformClick();
@@ -325,7 +370,6 @@ namespace NotepadDIY
                        });
             }
         }
-
         private void saveToolStripButton_Click(object sender, EventArgs e)
         {
             var docMapBox = getCurrentDocMapBox();
@@ -405,6 +449,115 @@ namespace NotepadDIY
             }
             FileInfo fileInfo = new FileInfo(path);
             debugControl1.compileRunNodejs(fileInfo);
+        }
+
+        private void folderView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                FileAttributes attr = File.GetAttributes(e.Node.FullPath);
+                if (attr.HasFlag(FileAttributes.Directory))
+                {
+                    e.Node.Expand();
+                }
+                else
+                {
+                    newToolStripButton.PerformClick();
+                    var docMapBox = getCurrentDocMapBox();
+                    if (docMapBox == null) return;
+                    docMapBox.LoadFile(e.Node.FullPath);
+                    this.faTabTripMaster.SelectedItem.Title = Path.GetFileName(docMapBox.FilePath);
+                    this.currentSaveLocationtoolStripStatus.Text = docMapBox.FilePath;
+                    languageToolStripMenuItem.DropDownItems
+                           .OfType<ToolStripMenuItem>().ToList()
+                           .ForEach(item =>
+                           {
+                               if (LoadXMLScript.getBuiltInLanguage(item.Text) == docMapBox.TextBox.Language)
+                               {
+                                   item.Checked = true;
+                               }
+                               else
+                               {
+                                   item.Checked = false;
+                               }
+                           });
+                }
+            }
+        }
+
+        private void faTabTripMaster_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                FATabStripItem tab = this.faTabTripMaster.GetTabItemByPoint(e.Location);
+                if (tab is null) return;
+                var menuscript = new ContextMenuStrip();
+                menuscript.Tag = tab;
+                menuscript.Items.Add("New Tab");
+                menuscript.Items.Add("Close");
+                menuscript.Items.Add(new ToolStripSeparator());
+                menuscript.Items.Add("Move to First", null);
+                menuscript.Items.Add("Move to Last", null);
+                menuscript.Items.Add(new ToolStripSeparator());
+                menuscript.Items.Add("Close All Tab", null);
+                menuscript.Items.Add("Close All Tab But This", null);
+                menuscript.ItemClicked += item_faTabTripMaster_RightClick;
+                // + groupbox1 width because FAtabtrip bug
+                menuscript.Show(folderView, e.X + this.groupBox1.Width, e.Y);
+            }
+        }
+        private void item_faTabTripMaster_RightClick(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+            var cms = sender as ContextMenuStrip;
+            var tab = cms.Tag as FATabStripItem;
+            switch (e.ClickedItem.Text)
+            {
+                case "New Tab":
+                    newToolStripButton.PerformClick();
+                    break;
+                case "Close":
+                    this.faTabTripMaster.RemoveTab(tab);
+                    break;
+                case "Move to First":
+                    this.faTabTripMaster.Items.MoveTo(0, tab);
+                    break;
+                case "Move to Last":
+                    this.faTabTripMaster.Items.MoveTo(this.faTabTripMaster.Items.Count - 1, tab);
+                    break;
+                case "Close All Tab":
+                    this.faTabTripMaster.Items.Clear();
+                    break;
+                case "Close All Tab But This":
+                    this.faTabTripMaster.Items.Clear();
+                    this.faTabTripMaster.Items.Add(tab);
+                    this.faTabTripMaster.SelectedItem = tab;
+                    break;
+            }
+        }
+        string label_beforePath_Node;
+        private void folderView_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
+        {
+            try
+            {
+                if (DirAndFileExt.isDirectory(label_beforePath_Node))
+                {
+                    DirAndFileExt.RenameFolder(label_beforePath_Node, e.Label);
+                }
+                else
+                {
+                    DirAndFileExt.RenameFile(label_beforePath_Node, e.Label);
+                }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message);
+            }
+        }
+
+        private void folderView_BeforeLabelEdit(object sender, NodeLabelEditEventArgs e)
+        {
+            label_beforePath_Node = e.Node.FullPath;
         }
     }
 }
