@@ -17,9 +17,7 @@ namespace NotepadDIY
 
     public partial class Form1 : Form
     {
-        private string path = "";
-        FATabStrip CurrentFatrip;
-
+        private string pathFolder = "";
         public Form1()
         {
             InitializeComponent();
@@ -120,11 +118,11 @@ namespace NotepadDIY
             {
                 if (folder.ShowDialog() == DialogResult.OK)
                 {
-                    path = folder.SelectedPath;
+                    pathFolder = folder.SelectedPath;
                     folderView.Nodes.Clear();
-                    TreeNode node = new TreeNode(path, 1, 1);
+                    TreeNode node = new TreeNode(pathFolder, 1, 1);
                     node.Nodes.Add("...");
-                    node.Tag = path;
+                    node.Tag = pathFolder;
                     folderView.Nodes.Add(node);
                 }
             }
@@ -205,10 +203,6 @@ namespace NotepadDIY
             Console.WriteLine("tabControl title");
         }
 
-        private void faTabTripMaster_Enter(object sender, EventArgs e)
-        {
-            this.CurrentFatrip = sender as FATabStrip;
-        }
         private void textboxUpdateInfo_TextChange(object sender, TextChangedEventArgs e)
         {
             var docMapBox = getCurrentDocMapBox();
@@ -338,6 +332,10 @@ namespace NotepadDIY
             if (docMapBox == null) return;
             docMapBox.SaveFile();
             this.currentSaveLocationtoolStripStatus.Text = docMapBox.FilePath == "" ? "Never Save Yet" : docMapBox.FilePath;
+            if (docMapBox.FilePath != "")
+            {
+                this.faTabTripMaster.SelectedItem.Title = Path.GetFileName(docMapBox.FilePath);
+            }
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -346,6 +344,67 @@ namespace NotepadDIY
             if (docMapBox == null) return;
             docMapBox.SaveAsFile();
             this.currentSaveLocationtoolStripStatus.Text = docMapBox.FilePath == "" ? "Never Save Yet" : docMapBox.FilePath;
+        }
+        private void runCS_Click(object sender, EventArgs e)
+        {
+            var docMapBox = getCurrentDocMapBox();
+            if (docMapBox == null) return;
+            var path = docMapBox.FilePath;
+            if (path == "")
+            {
+                string dir = Path.GetTempPath() + @"\NotepadDIY";
+                Directory.CreateDirectory(dir);
+                path = dir + @"\tempfile.cs";
+                docMapBox.TextBox.SaveToFile(path, Encoding.Default);
+            }
+            else
+            {
+                path = path.SanitizePath('_');
+                docMapBox.TextBox.SaveToFile(path, Encoding.Default);
+            }
+            FileInfo fileInfo = new FileInfo(path);
+            docMapBox.TextBox.SaveToFile(path, Encoding.Default);
+            debugControl1.compileRunCSharp(docMapBox.TextBox.Text, fileInfo);
+        }
+        private void runCPP_Click(object sender, EventArgs e)
+        {
+            var docMapBox = getCurrentDocMapBox();
+            if (docMapBox == null) return;
+            var path = docMapBox.FilePath;
+            if (path == "")
+            {
+                string dir = Path.GetTempPath() + @"\NotepadDIY";
+                Directory.CreateDirectory(dir);
+                path = dir + @"\tempfile.cpp";
+                docMapBox.TextBox.SaveToFile(path, Encoding.Default);
+            }
+            else
+            {
+                path = path.SanitizePath('_');
+                docMapBox.TextBox.SaveToFile(path, Encoding.Default);
+            }
+            FileInfo fileInfo = new FileInfo(path);
+            debugControl1.compileRunCPP(fileInfo);
+        }
+        private void Javascript_Click(object sender, EventArgs e)
+        {
+            var docMapBox = getCurrentDocMapBox();
+            if (docMapBox == null) return;
+            var path = docMapBox.FilePath;
+            if (path == "")
+            {
+                string dir = Path.GetTempPath() + @"\NotepadDIY";
+                Directory.CreateDirectory(dir);
+                path = dir + @"\tempfile.js";
+                docMapBox.TextBox.SaveToFile(path, Encoding.Default);
+            }
+            else
+            {
+                path = path.SanitizePath('_');
+                docMapBox.TextBox.SaveToFile(path, Encoding.Default);
+            }
+            FileInfo fileInfo = new FileInfo(path);
+            debugControl1.compileRunNodejs(fileInfo);
         }
     }
 }

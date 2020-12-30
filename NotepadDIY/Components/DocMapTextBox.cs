@@ -176,6 +176,7 @@ namespace NotepadDIY.Components
         {
             this.fastColoredTextBox1.ShowReplaceDialog();
         }
+        
     }
 
 }
