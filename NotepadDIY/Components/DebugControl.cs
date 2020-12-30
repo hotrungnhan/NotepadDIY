@@ -17,13 +17,13 @@ namespace NotepadDIY.Components
 {
 
     public partial class DebugControl : UserControl
-    {       
+    {
 
         private Process process;
         CompilerParameters parameters;
         string Output;
         public DebugControl()
-        {           
+        {
             InitializeComponent();
 
             process = new Process();
@@ -37,8 +37,8 @@ namespace NotepadDIY.Components
             parameters.GenerateExecutable = true;
             parameters.GenerateInMemory = false;
         }
-        
-        
+
+
 
         public string getRelativePath(string filePath, string referencePath)
         {
@@ -46,7 +46,7 @@ namespace NotepadDIY.Components
             var referenceUri = new Uri(referencePath);
             return Uri.UnescapeDataString(referenceUri.MakeRelativeUri(fileUri).ToString()).Replace('/', Path.DirectorySeparatorChar);
         }
-        
+
         public void compileRunCSharp(string inputCodeText, FileInfo fileInfo)
         {
             errorTextBox.Text = "";
@@ -54,12 +54,12 @@ namespace NotepadDIY.Components
             CSharpCodeProvider codeProvider = new CSharpCodeProvider();
             ICodeCompiler icc = codeProvider.CreateCompiler();
 
-            Output = Path.GetFileNameWithoutExtension(fileInfo.Name) + ".exe";                     
+            Output = Path.GetFileNameWithoutExtension(fileInfo.Name) + ".exe";
 
-            
+
             parameters.OutputAssembly = fileInfo.DirectoryName + @"\" + Output;
-            
-                        
+
+
             CompilerResults results = icc.CompileAssemblyFromSource(parameters, inputCodeText);
 
             if (results.Errors.Count > 0)
@@ -80,11 +80,11 @@ namespace NotepadDIY.Components
                 errorTextBox.ForeColor = Color.Blue;
                 errorTextBox.Text = "Success!";
 
-                Process.Start(parameters.OutputAssembly);                   
+                Process.Start(parameters.OutputAssembly);
             }
         }
         public void compileRunCPP(FileInfo fileInfo)
-        {            
+        {
             string results = "";
 
             try
@@ -94,7 +94,7 @@ namespace NotepadDIY.Components
 
                 process.StartInfo.FileName = @"g++.exe";
                 process.StartInfo.Arguments = @"-o " + parameters.OutputAssembly + @" " + fileInfo.FullName;
-                
+
                 process.Start();
 
                 using (StreamReader sr = process.StandardError)
@@ -109,8 +109,7 @@ namespace NotepadDIY.Components
                 {
                     errorTextBox.ForeColor = Color.Blue;
                     errorTextBox.Text = "Success";
-
-                    Process.Start(parameters.OutputAssembly).WaitForExit();
+                    Process.Start(parameters.OutputAssembly);
                 }
                 else
                 {
@@ -118,9 +117,48 @@ namespace NotepadDIY.Components
                     errorTextBox.Text = results;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show("Install g++ as your environment first ");
+            }
+        }
+        public void compileRunNodejs(FileInfo fileInfo)
+        {
+            string results = "";
+
+            try
+            {
+                Output = Path.GetFileNameWithoutExtension(fileInfo.Name) + ".exe";
+                parameters.OutputAssembly = fileInfo.DirectoryName + @"\" + Output;
+
+                process.StartInfo.FileName = @"node.exe";
+                process.StartInfo.Arguments = " " + fileInfo.FullName;
+
+                process.Start();
+
+                using (StreamReader sr = process.StandardError)
+                {
+                    if (sr.BaseStream.CanRead)
+                        results = sr.ReadToEnd();
+                }
+
+                process.Close();
+
+                if (String.IsNullOrWhiteSpace(results))
+                {
+                    errorTextBox.ForeColor = Color.Blue;
+                    errorTextBox.Text = "Success";
+                    Process.Start(parameters.OutputAssembly);
+                }
+                else
+                {
+                    errorTextBox.ForeColor = Color.Red;
+                    errorTextBox.Text = results;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Install nodejs as your environment first ");
             }
         }
     }

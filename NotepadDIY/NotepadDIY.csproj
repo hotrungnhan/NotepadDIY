@@ -71,6 +71,7 @@
     <Compile Include="Components\DocMapTextBox.Designer.cs">
       <DependentUpon>DocMapTextBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Components\PathSanitizer.cs" />
     <Compile Include="Components\PointExt.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

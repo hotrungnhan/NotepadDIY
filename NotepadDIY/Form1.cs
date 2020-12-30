@@ -17,9 +17,7 @@ namespace NotepadDIY
 
     public partial class Form1 : Form
     {
-        private string path = "";
-        FATabStrip CurrentFatrip;
-
+        private string pathFolder = "";
         public Form1()
         {
             InitializeComponent();
@@ -28,10 +26,9 @@ namespace NotepadDIY
             {
                 var newitem = new ToolStripMenuItem();
                 newitem.Text = entry;
+                newitem.Click += languageMenu_Click;
                 this.languageToolStripMenuItem.DropDownItems.Add(newitem);
             }
-
-
         }
         private DocMapTextBox getCurrentDocMapBox()
         {
@@ -121,11 +118,11 @@ namespace NotepadDIY
             {
                 if (folder.ShowDialog() == DialogResult.OK)
                 {
-                    path = folder.SelectedPath;
+                    pathFolder = folder.SelectedPath;
                     folderView.Nodes.Clear();
-                    TreeNode node = new TreeNode(path, 1, 1);
+                    TreeNode node = new TreeNode(pathFolder, 1, 1);
                     node.Nodes.Add("...");
-                    node.Tag = path;
+                    node.Tag = pathFolder;
                     folderView.Nodes.Add(node);
                 }
             }
@@ -197,6 +194,7 @@ namespace NotepadDIY
             var ftcb = docMapBox.TextBox;
             this.currentLineCountStatus.Text = "line :" + ftcb.LinesCount.ToString();
             this.currentLanguageStatus.Text = docMapBox.TextBox.Language.ToString();
+            this.currentSaveLocationtoolStripStatus.Text = docMapBox.FilePath == "" ? "Never Save Yet" : docMapBox.FilePath;
         }
 
         private void faTabTripMaster_Click(object sender, EventArgs e)
@@ -205,10 +203,6 @@ namespace NotepadDIY
             Console.WriteLine("tabControl title");
         }
 
-        private void faTabTripMaster_Enter(object sender, EventArgs e)
-        {
-            this.CurrentFatrip = sender as FATabStrip;
-        }
         private void textboxUpdateInfo_TextChange(object sender, TextChangedEventArgs e)
         {
             var docMapBox = getCurrentDocMapBox();
@@ -304,81 +298,113 @@ namespace NotepadDIY
 
         private void openFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var opendialog = new OpenFileDialog();
-            if (opendialog.ShowDialog() == DialogResult.OK)
-            {
-                newToolStripButton.PerformClick();
-                var docMapBox = getCurrentDocMapBox();
-                if (docMapBox == null) return;
-                docMapBox.LoadFile(opendialog.FileName);
-                this.faTabTripMaster.SelectedItem.Title = Path.GetFileName(opendialog.FileName);
-                
-                path = opendialog.FileName;
-            }
-
-        }
-        private void saveFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-            if ((!String.IsNullOrWhiteSpace(path)) || File.Exists(path))
-            {
-                var docMapBox = getCurrentDocMapBox();
-                docMapBox.TextBox.SaveToFile(path, Encoding.Default);
-                MessageBox.Show("Save Success");
-            }
-            else
-                saveAsFileToolStripMenuItem_Click(sender, e);
-            
-        }
-        private void saveAsProcess(string filepath)
-        {
-            FileInfo fileInfo = new FileInfo(filepath);
-            string newPath = fileInfo.DirectoryName + @"\" + Path.GetFileNameWithoutExtension(fileInfo.Name) + @"\";
-            Directory.CreateDirectory(newPath);
-            path = newPath + fileInfo.Name;
+            newToolStripButton.PerformClick();
             var docMapBox = getCurrentDocMapBox();
-            docMapBox.TextBox.SaveToFile(path, Encoding.Default);
-            this.faTabTripMaster.SelectedItem.Title = fileInfo.Name;
-        }
-        private void saveAsFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var saveDialog = new SaveFileDialog();
-            saveDialog.Title = "Save file as...";
-            saveDialog.FileName = "NewCode";
-            if (saveDialog.ShowDialog() == DialogResult.OK)
+            if (docMapBox == null) return;
+            docMapBox.OpenFile();
+            if (docMapBox.FilePath == "")
             {
-                saveAsProcess(saveDialog.FileName);
-                MessageBox.Show("Save Success");
+                closeTabToolStripMenuItem.PerformClick();
             }
-        }
-        private void createTempFile(string filepath)
-        {
-            if (String.IsNullOrWhiteSpace(filepath))
-                filepath = Path.GetTempPath() + "NewCode" ;
             else
             {
-                if (!File.Exists(filepath))
-                    filepath = Path.GetTempPath() + Path.GetFileNameWithoutExtension(this.faTabTripMaster.SelectedItem.Title);
+                this.faTabTripMaster.SelectedItem.Title = Path.GetFileName(docMapBox.FilePath);
+                this.currentSaveLocationtoolStripStatus.Text = docMapBox.FilePath;
+                languageToolStripMenuItem.DropDownItems
+                       .OfType<ToolStripMenuItem>().ToList()
+                       .ForEach(item =>
+                       {
+                           if (LoadXMLScript.getBuiltInLanguage(item.Text) == docMapBox.TextBox.Language)
+                           {
+                               item.Checked = true;
+                           }
+                           else
+                           {
+                               item.Checked = false;
+                           }
+                       });
             }
-            if (!File.Exists(filepath))                    
-                saveAsProcess(filepath);
-            
+        }
+
+        private void saveToolStripButton_Click(object sender, EventArgs e)
+        {
+            var docMapBox = getCurrentDocMapBox();
+            if (docMapBox == null) return;
+            docMapBox.SaveFile();
+            this.currentSaveLocationtoolStripStatus.Text = docMapBox.FilePath == "" ? "Never Save Yet" : docMapBox.FilePath;
+            if (docMapBox.FilePath != "")
+            {
+                this.faTabTripMaster.SelectedItem.Title = Path.GetFileName(docMapBox.FilePath);
+            }
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var docMapBox = getCurrentDocMapBox();
+            if (docMapBox == null) return;
+            docMapBox.SaveAsFile();
+            this.currentSaveLocationtoolStripStatus.Text = docMapBox.FilePath == "" ? "Never Save Yet" : docMapBox.FilePath;
         }
         private void runCS_Click(object sender, EventArgs e)
         {
-            createTempFile(path);
-            FileInfo fileInfo = new FileInfo(path);
             var docMapBox = getCurrentDocMapBox();
+            if (docMapBox == null) return;
+            var path = docMapBox.FilePath;
+            if (path == "")
+            {
+                string dir = Path.GetTempPath() + @"\NotepadDIY";
+                Directory.CreateDirectory(dir);
+                path = dir + @"\tempfile.cs";
+                docMapBox.TextBox.SaveToFile(path, Encoding.Default);
+            }
+            else
+            {
+                path = path.SanitizePath('_');
+                docMapBox.TextBox.SaveToFile(path, Encoding.Default);
+            }
+            FileInfo fileInfo = new FileInfo(path);
             docMapBox.TextBox.SaveToFile(path, Encoding.Default);
             debugControl1.compileRunCSharp(docMapBox.TextBox.Text, fileInfo);
         }
         private void runCPP_Click(object sender, EventArgs e)
         {
-            createTempFile(path);
-            FileInfo fileInfo = new FileInfo(path);
             var docMapBox = getCurrentDocMapBox();
-            docMapBox.TextBox.SaveToFile(path, Encoding.Default);
+            if (docMapBox == null) return;
+            var path = docMapBox.FilePath;
+            if (path == "")
+            {
+                string dir = Path.GetTempPath() + @"\NotepadDIY";
+                Directory.CreateDirectory(dir);
+                path = dir + @"\tempfile.cpp";
+                docMapBox.TextBox.SaveToFile(path, Encoding.Default);
+            }
+            else
+            {
+                path = path.SanitizePath('_');
+                docMapBox.TextBox.SaveToFile(path, Encoding.Default);
+            }
+            FileInfo fileInfo = new FileInfo(path);
             debugControl1.compileRunCPP(fileInfo);
+        }
+        private void Javascript_Click(object sender, EventArgs e)
+        {
+            var docMapBox = getCurrentDocMapBox();
+            if (docMapBox == null) return;
+            var path = docMapBox.FilePath;
+            if (path == "")
+            {
+                string dir = Path.GetTempPath() + @"\NotepadDIY";
+                Directory.CreateDirectory(dir);
+                path = dir + @"\tempfile.js";
+                docMapBox.TextBox.SaveToFile(path, Encoding.Default);
+            }
+            else
+            {
+                path = path.SanitizePath('_');
+                docMapBox.TextBox.SaveToFile(path, Encoding.Default);
+            }
+            FileInfo fileInfo = new FileInfo(path);
+            debugControl1.compileRunNodejs(fileInfo);
         }
     }
 }
