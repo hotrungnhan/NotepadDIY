@@ -1,11 +1,8 @@
-﻿using System;
+﻿using FastColoredTextBoxNS;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections;
 using System.IO;
-using FastColoredTextBoxNS;
+using System.Linq;
 namespace NotepadDIY.Components
 {
     /// <summary>
@@ -14,7 +11,7 @@ namespace NotepadDIY.Components
     /// </summary>
     class XMLscriptItem
     {
-       
+
         public string[] Ext { get; set; }
         public string Filter { get; set; }
         public string Path { get; set; }
@@ -23,7 +20,7 @@ namespace NotepadDIY.Components
             this.Ext = ext;
             this.Filter = filter;
             this.Path = Path;
-          
+
         }
         static public string getLanguageName(string FileNameWithExt)
         {
@@ -57,15 +54,19 @@ namespace NotepadDIY.Components
                 try
                 {
                     string[] files = Directory.GetFiles(@"Script", "*.xml");
+                    Properties.Settings.Default.FILTERSTRING_Runtime = Properties.Resources.FILTERSTRING_DEFAULT;
                     foreach (string f in files)
                     {
+                        Console.WriteLine(f);
                         var name = Path.GetFileNameWithoutExtension(f);
                         ScriptPathDict.Add(XMLscriptItem.getLanguageName(name), new XMLscriptItem(XMLscriptItem.getExtList(name), XMLscriptItem.getFilterExt(name), f));
+                        Properties.Settings.Default.FILTERSTRING_Runtime += "|" + ScriptPathDict.Last().Value.Filter;
                     }
                 }
                 catch (Exception err) { Console.WriteLine(err.Message); }
                 firstload = false;
             }
+            Console.WriteLine(Properties.Settings.Default.FILTERSTRING_Runtime);
         }
         static public bool isBuiltInLanguage(string lang)
         {
@@ -120,14 +121,6 @@ namespace NotepadDIY.Components
                 case ".json": return Language.JSON;
                 default: return Language.Custom;
             }
-        }
-        static public string getXMLScriptPath(string lang)
-        {
-            if (ScriptPathDict.ContainsKey(lang))
-            {
-                return ScriptPathDict[lang].Path;
-            }
-            else return "";
         }
         static public string[] getXMLScriptExt(string lang)
         {
