@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using NotepadDIY.Components.Ext;
+﻿using FarsiLibrary.Win;
 using FastColoredTextBoxNS;
-using FarsiLibrary.Win;
+using NotepadDIY.Components.Ext;
+using System;
+using System.Drawing;
 using System.IO;
+using System.Text;
+using System.Windows.Forms;
 namespace NotepadDIY.Components
 {
     public partial class DocMapTextBox : UserControl
@@ -53,6 +48,7 @@ namespace NotepadDIY.Components
         public void OpenFile()
         {
             var opendialog = new OpenFileDialog();
+            opendialog.Filter = Properties.Settings.Default.FILTERSTRING_Runtime;
             if (opendialog.ShowDialog() == DialogResult.OK)
             {
                 LoadFile(opendialog.FileName);
@@ -99,16 +95,7 @@ namespace NotepadDIY.Components
         public void SaveAsFile()
         {
             var saveDialog = new SaveFileDialog();
-            saveDialog.Filter = "Txt files |*.txt|" +
-                                "Csharp|*.cs|" +
-                                "JavaScript|*.js|" +
-                                "JSON|*.json|" +
-                                "Lua|*.lua|" +
-                                "PHP|*.php|" +
-                                "VB|*.vb|" +
-                                "HTML|*.html|" +
-                                "XML|*.xml|" +
-                                "All files|*.*";
+            saveDialog.Filter = Properties.Settings.Default.FILTERSTRING_Runtime;
             if (saveDialog.ShowDialog() == DialogResult.OK)
             {
                 this.fastColoredTextBox1.SaveToFile(saveDialog.FileName, Encoding.UTF8);
@@ -176,7 +163,7 @@ namespace NotepadDIY.Components
         {
             this.fastColoredTextBox1.ShowReplaceDialog();
         }
-        
+
     }
 
 }
